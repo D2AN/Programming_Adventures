@@ -7,8 +7,8 @@ from PIL import Image, ImageTk
 root = tk.Tk()
 eplotis = root.winfo_screenwidth()
 eaukstis = root.winfo_screenheight()
-veikejoaukstis = round(eaukstis / 15)
-veikejoplotis = round(eplotis / 15)
+veikejoaukstis = round(eaukstis / 8)
+veikejoplotis = round(eplotis / 11)
 x = 1
 y = 1
 # Create the canvas and make it visible with pack()
@@ -16,7 +16,7 @@ canvas = tk.Canvas(root, width=eplotis, height=eaukstis)
 canvas.pack() # this makes it visible
 
 # Loads and create image (put the image in the folder)
-image = Image.open("menas.png")
+image = Image.open("taip.png")
 image = image.resize((veikejoplotis,veikejoaukstis), Image.ANTIALIAS)
 pic = ImageTk.PhotoImage(image)
 image = canvas.create_image(1, 1, anchor=tk.NW, image=pic)
