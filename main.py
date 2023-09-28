@@ -86,10 +86,10 @@ while running:
     elif game_state == GAME:
         frame_counter += 1
 
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             player_x -= player_x_speed
             player_direction = "left"
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             player_x += player_x_speed
             player_direction = "right"
 
