@@ -1,1 +1,1 @@
-print('pavyko!!!')
+print('pavyko!!!pakitau')
