@@ -1,12 +1,17 @@
+import pygame as pg
 import pygame
 import sys
 
 # Initialize Pygame
-pygame.init()
+pg.init()
 
 # Constants
-WIDTH, HEIGHT = 800, 600
-PLAYER_WIDTH, PLAYER_HEIGHT = 40, 60
+info = pg.display.Info()
+eplotis = info.current_w  # Ekrano plotis
+eaukstis = info.current_h  # Ekrano aukštis
+WIDTH = eplotis
+HEIGHT = eaukstis
+PLAYER_WIDTH, PLAYER_HEIGHT = eplotis / 10, eplotis / 8  # Veikėjo aukštis yra 1/10, o plotis 1/8 ekrano plotio
 PLAYER_COLOR = (0, 255, 0)
 BG_COLOR = (0, 0, 0)
 GROUND_COLOR = (100, 100, 100)
@@ -16,11 +21,12 @@ PLAYER_X_SPEED = 0.5
 ANIMATION_SPEED = 5
 
 # Create the screen
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pg.display.set_mode((eplotis, eaukstis))
 pygame.display.set_caption("D2AN")
 
 # Load background image
 background_image = pygame.image.load("background.png").convert()
+background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # Initialize mixer
 pygame.mixer.init()
@@ -61,6 +67,7 @@ menu_text = font.render("Press SPACE to Start", True, (255, 255, 255))
 player_frames = []
 for i in range(1):
     frame = pygame.image.load(f"player_frame{i}.png").convert_alpha()
+    frame = pygame.transform.scale(frame, (int(PLAYER_WIDTH), int(PLAYER_HEIGHT)))
     player_frames.append(frame)
 frame_index = 0
 frame_counter = 0
@@ -122,6 +129,10 @@ while running:
     if game_state == MENU:
         screen.fill(BG_COLOR)
         screen.blit(menu_text, (WIDTH // 2 - menu_text.get_width() // 2, HEIGHT // 2 - menu_text.get_height() // 2))
+    if player_x < -1:
+        player_x = eplotis -PLAYER_WIDTH - 1
+    if player_x > eplotis - PLAYER_WIDTH:
+        player_x = 0
 
     pygame.display.update()
 
