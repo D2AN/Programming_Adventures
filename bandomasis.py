@@ -40,7 +40,7 @@ def main():
                 if active:
                     if event.key == pg.K_RETURN:
                         print("Pirmas laukas:", text)
-                        text = 0
+                        text = text
                     elif event.key == pg.K_BACKSPACE:
                         text = text // 10  # Naudojame //, kad padalintume skaičių iš 10 (panaikintume paskutinį skaitmenį)
                     else:
@@ -48,7 +48,7 @@ def main():
                 if active2:
                     if event.key == pg.K_RETURN:
                         print("Antras laukas:", text2)
-                        text2 = 0
+                        text2 = text2
                     elif event.key == pg.K_BACKSPACE:
                         text2 = text2 // 10  # Naudojame //, kad padalintume skaičių iš 10 (panaikintume paskutinį skaitmenį)
                     else:
@@ -69,7 +69,7 @@ def main():
         screen.blit(txt_surface2, (input_box2.x + 5, input_box2.y + 5))
         pg.draw.rect(screen, color2, input_box2, 2)
         
-        paveikslas_x = int(text)
+        paveikslas_x = int(text) + 300
         paveikslas_y = int(text2)
 
         paveikslas = pg.image.load('taip.png')
