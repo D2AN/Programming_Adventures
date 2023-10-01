@@ -1,7 +1,6 @@
 import pygame
 import sys
 import os
-
 # Initialize Pygame
 pygame.init()
 screen_info = pygame.display.Info()
