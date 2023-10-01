@@ -52,22 +52,25 @@ trecias_rect.x = kordinate3[0]
 trecias_rect.y = kordinate3[1]
 trecias_rect.size = antras_rect.size = pirmas_rect.size = bdydis[0]
 # ///////////////////////////////////////////////
-button_font = pygame.font.Font(None, 24)
+button_font = pygame.font.Font(None, 40)
 button1_text = button_font.render("Learnig", True, BLACK)
 button1_rect = button1_text.get_rect()
 button1_x = 0
 button1_y = 50
-button1_rect.topleft = (kordinate1[0] + 30 , kordinate1[1] + 30 )
+button1_rect.topleft = (kordinate1[0] +kordinate1[0] / 7  , kordinate1[1] + kordinate1[1]/14 )
 button2_text = button_font.render("Tests", True, BLACK)
 button2_rect = button2_text.get_rect()
 button2_x = 0
 button2_y = 150
-button2_rect.topleft = (kordinate2[0] + 30 , kordinate2[1] + 30 )
+button2_rect.topleft = (kordinate2[0] +kordinate2[0] / 7  , kordinate2[1] + kordinate2[1]/10 )
 button3_text = button_font.render("Play", True, BLACK)
 button3_rect = button3_text.get_rect()
 button3_x = 0
 button3_y = 250
-button3_rect.topleft = (kordinate3[0] + 30 , kordinate3[1] + 30 )
+button3_rect.topleft = (kordinate3[0] +kordinate3[0] / 7  , kordinate3[1] + kordinate3[1]/6)
+galas = pygame.image.load('templateb.png')
+galas = pygame.transform.scale(galas,(eplotis,eaukstis))
+
 # ////////////////////////////////////////////////////////////////
 # Main program loop
 running = True
@@ -88,8 +91,8 @@ while running:
                 if trecias_rect.collidepoint(pygame.mouse.get_pos()):
                     run_game("game.py")
     # Draw the screen
-    screen.fill(WHITE)
-
+   
+    screen.blit(galas,(0,0))
     if pirmas_rect.collidepoint(pygame.mouse.get_pos()):
        pirmas = pygame.image.load(buton[1])
        screen.blit(pygame.transform.scale(pirmas, bdydis[1]), kordinate1)
@@ -109,18 +112,13 @@ while running:
         trecias = pygame.image.load(buton[0])
         screen.blit(pygame.transform.scale(trecias, bdydis[0]), kordinate3)
 
-    # ce darau migtukius
-
-    # screen.blit(pygame.transform.scale(pirmas, bdydis[0]), kordinate1)
-    # screen.blit(pygame.transform.scale(antras, bdydis[0]), kordinate2)
-    # screen.blit(pygame.transform.scale(trecias, bdydis[0]), kordinate3)
-  
+    
     # uzrasai
-    screen.blit(main_text, main_text_rect)
+    # screen.blit(main_text, main_text_rect)
     screen.blit(button1_text, button1_rect)
     screen.blit(button2_text, button2_rect)
     screen.blit(button3_text, button3_rect)
-
+    
     pygame.display.flip()
 
 # Quit Pygame
