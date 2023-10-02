@@ -24,7 +24,6 @@ font = pygame.font.Font(None, 0)  # specify font and size
 puse = eplotis / 2
 main_text = font.render("Programing adventures", True, BLACK)
 main_text_rect = main_text.get_rect()
-main_text_rect.size = textdydis
 main_text_x = puse - puse / 2
 main_text_y = 50
 main_text_rect.topleft = (main_text_x, main_text_y)
