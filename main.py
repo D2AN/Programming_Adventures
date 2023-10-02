@@ -49,7 +49,7 @@ iseiti_rect = iseiti.get_rect()
 pirmas_rect = pirmas.get_rect()
 antras_rect = antras.get_rect()
 trecias_rect = trecias.get_rect()
-pirmas_rect.y = migtukas[1]
+
 pirmas_rect.x = kordinate1[0]
 pirmas_rect.y = kordinate1[1]
 antras_rect.x = kordinate2[0]
