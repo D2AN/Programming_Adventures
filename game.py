@@ -25,7 +25,7 @@ pg.display.set_caption("D2AN")
 
 # Load background image
 background_image = pg.image.load("background.png").convert()
-background_image = pg.transform.scale(background_image, (eplotis + 22, eaukstis))
+background_image = pg.transform.scale(background_image, (eplotis * 3, eaukstis))
 
 # Initialize mixer
 pg.mixer.init()
@@ -75,8 +75,8 @@ frame_counter = 0
 player_direction = "right"
 
 # Create the player object
-player = Player(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT, player_frames)
-
+player = Player(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT, player_frames, )
+player.x = eplotis / 2
 # Game loop
 running = True
 while running:
@@ -86,17 +86,34 @@ while running:
     
     keys = pg.key.get_pressed()
     if keys[pg.K_d]:
-        a = a + 2
-        if a > 10:
-            a = a - 1
+        a = a - 0.5
+        # if a > 10:
+        #     a = a - 2
+    # elif a < 0:
+    #     a = 1 + a
+    
     if keys[pg.K_a]:
-        a = a - 2
-        if a < -10:
-            a = a + 1
-    if a > 10:
-        a = a - 1
-    if a < -10:
-        a = a + 1
+        a = a + 0.5
+        # if a < -10:
+        #     a = a + 2
+    # elif a > 0:
+    #     a = a - 1  
+    # if a > 10:
+    #     a = a - 1
+        
+    # if a < -10:
+    #     a = a + 1
+    if player.x < eplotis / 4:
+        player.x = player.x + 0.5
+    elif player.x < eplotis / 2:
+        player.x = player.x + 0.30
+        a = a + 0.30
+    if player.x > eplotis - eplotis / 4:
+        player.x = player.x - 0.5
+    elif player.x > eplotis - eplotis / 2:
+        player.x = player.x - 0.30
+        a = a - 0.30
+    
     # if a > 10:
     #         a = a - 1
     # if a > -10:
@@ -113,7 +130,7 @@ while running:
         player.move(keys, ground_y)
 
         # Fill the background with the background image
-        screen.blit(background_image, (a, 0))
+        screen.blit(background_image, (a - eplotis, 0))
 
         # Draw the ground
         pg.draw.rect(screen, GROUND_COLOR, (0, ground_y, eplotis, eaukstis - ground_y))

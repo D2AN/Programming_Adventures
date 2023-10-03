@@ -1,6 +1,7 @@
 import pygame
+
 class Player:
-    def __init__(self, x, y, width, height, player_frames):
+    def __init__(self, x, y, width, height, player_frames,):
         self.x = x
         self.y = y - height
         self.width = width
@@ -12,6 +13,7 @@ class Player:
         self.x_speed = 0.5
         self.y_speed = 0
         self.jumping = False
+      
 
     def move(self, keys, ground_y):
         self.frame_counter += 1
