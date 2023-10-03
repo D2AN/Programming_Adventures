@@ -34,7 +34,7 @@ aukstis = eplotis / 5
 kordinate1 = [puse - eaukstis / 6, eaukstis - aukstis]
 kordinate2 = [puse - eaukstis / 6, eaukstis - aukstis - aukstis / 2]
 kordinate3 = [puse - eaukstis / 6, eaukstis - aukstis - aukstis ]
-išeiti = [puse + puse / 8, eaukstis - eaukstis / 6 ]
+išeiti = [puse - eaukstis / 6, eaukstis - eaukstis / 6 ]
 migtukas = [puse + puse / 6, eaukstis - eaukstis / 4 ]
 # ///////////////////////////////////////////////
 buton = ['buton.png','butononmause.png']
@@ -63,18 +63,15 @@ iseiti_rect.size = trecias_rect.size = antras_rect.size = pirmas_rect.size = bdy
 button_font = pygame.font.Font(None, 40)
 button1_text = button_font.render("Learnig", True, BLACK)
 button1_rect = button1_text.get_rect()
-button1_x = 0
-button1_y = 50
+
 button1_rect.topleft = (kordinate1[0] +kordinate1[0] / 7  , kordinate1[1] + kordinate1[1]/14 )
 button2_text = button_font.render("Tests", True, BLACK)
 button2_rect = button2_text.get_rect()
-button2_x = 0
-button2_y = 150
+
 button2_rect.topleft = (kordinate2[0] +kordinate2[0] / 7  , kordinate2[1] + kordinate2[1]/10 )
 button3_text = button_font.render("Play", True, BLACK)
 button3_rect = button3_text.get_rect()
-button3_x = 0
-button3_y = 250
+
 button3_rect.topleft = (kordinate3[0] +kordinate3[0] / 7  , kordinate3[1] + kordinate3[1]/6)
 galas = pygame.image.load('templateb.png')
 galas = pygame.transform.scale(galas,(eplotis,eaukstis))

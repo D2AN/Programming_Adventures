@@ -8,9 +8,8 @@ pg.init()
 # Constants
 info = pg.display.Info()
 eplotis = info.current_w  # Ekrano plotis
-eaukstis = info.current_h  # Ekrano aukštis
-WIDTH = eplotis
-HEIGHT = eaukstis
+eaukstis = info.current_h + 100  # Ekrano aukštis
+
 PLAYER_WIDTH, PLAYER_HEIGHT = eplotis / 10, eplotis / 8  # Veikėjo aukštis yra 1/10, o plotis 1/8 ekrano plotio
 PLAYER_COLOR = (0, 255, 0)
 BG_COLOR = (0, 0, 0)
@@ -26,7 +25,7 @@ pg.display.set_caption("D2AN")
 
 # Load background image
 background_image = pg.image.load("background.png").convert()
-background_image = pg.transform.scale(background_image, (WIDTH, HEIGHT))
+background_image = pg.transform.scale(background_image, (eplotis + 22, eaukstis))
 
 # Initialize mixer
 pg.mixer.init()
@@ -44,13 +43,13 @@ menu_music.play(loops=-1)
 
 # Player attributes
 player_x = 100
-player_y = HEIGHT - HEIGHT
+player_y = eaukstis - eaukstis
 player_x_speed = PLAYER_X_SPEED
 player_y_speed = 0
 jumping = False
-
+a = -10
 # Ground attributes
-ground_y = HEIGHT - 50
+ground_y = eaukstis - 50
 
 # Game state
 MENU = 0
@@ -86,7 +85,22 @@ while running:
             running = False
     
     keys = pg.key.get_pressed()
-
+    if keys[pg.K_d]:
+        a = a + 2
+        if a > 10:
+            a = a - 1
+    if keys[pg.K_a]:
+        a = a - 2
+        if a < -10:
+            a = a + 1
+    if a > 10:
+        a = a - 1
+    if a < -10:
+        a = a + 1
+    # if a > 10:
+    #         a = a - 1
+    # if a > -10:
+    #         a = a + 1
     if game_state == MENU:
         if keys[pg.K_SPACE]:
             game_state = GAME
@@ -99,17 +113,17 @@ while running:
         player.move(keys, ground_y)
 
         # Fill the background with the background image
-        screen.blit(background_image, (0, 0))
+        screen.blit(background_image, (a, 0))
 
         # Draw the ground
-        pg.draw.rect(screen, GROUND_COLOR, (0, ground_y, WIDTH, HEIGHT - ground_y))
+        pg.draw.rect(screen, GROUND_COLOR, (0, ground_y, eplotis, eaukstis - ground_y))
 
         # Draw the player with animation
         player.draw(screen)
 
     if game_state == MENU:
         screen.fill(BG_COLOR)
-        screen.blit(menu_text, (WIDTH // 2 - menu_text.get_width() // 2, HEIGHT // 2 - menu_text.get_height() // 2))
+        screen.blit(menu_text, (eplotis // 2 - menu_text.get_width() // 2, eaukstis // 2 - menu_text.get_height() // 2))
     if player.x < -1:
         player.x = eplotis - PLAYER_WIDTH - 1
     if player.x > eplotis - PLAYER_WIDTH:
