@@ -63,18 +63,20 @@ iseiti_rect.y = išeiti[1]
 iseiti_rect.size = trecias_rect.size = antras_rect.size = pirmas_rect.size = bdydis[0]
 # ///////////////////////////////////////////////
 button_font = pygame.font.Font(None, 40)
-button1_text = button_font.render("Learnig", True, BLACK)
+button1_text = button_font.render("Setings", True, BLACK)
 button1_rect = button1_text.get_rect()
 
-button1_rect.topleft = (kordinate1[0] +kordinate1[0] / 7  , kordinate1[1] + kordinate1[1]/14 )
-button2_text = button_font.render("Tests", True, BLACK)
+button1_rect.topleft = (kordinate1[0] +kordinate1[0] / 7  , kordinate1[1] + kordinate1[1]/12 )
+button2_text = button_font.render("Shop", True, BLACK)
 button2_rect = button2_text.get_rect()
 
-button2_rect.topleft = (kordinate2[0] +kordinate2[0] / 7  , kordinate2[1] + kordinate2[1]/10 )
+button2_rect.topleft = (kordinate2[0] +kordinate2[0] / 7  , kordinate2[1] + kordinate2[1]/8 )
 button3_text = button_font.render("Play", True, BLACK)
 button3_rect = button3_text.get_rect()
-
-button3_rect.topleft = (kordinate3[0] +kordinate3[0] / 7  , kordinate3[1] + kordinate3[1]/6)
+exit_text = button_font.render("Exit", True, BLACK)
+exit_rect = exit_text.get_rect()
+exit_rect.topleft = (išeiti[0] +išeiti[0] / 7  , išeiti[1] + išeiti[1]/11)
+button3_rect.topleft = (kordinate3[0] +kordinate3[0] / 7  , kordinate3[1] + kordinate3[1]/4)
 galas = pygame.image.load('menu_1.png')
 galas = pygame.transform.scale(galas,(eplotis,eaukstis))
 pygame.mouse.set_visible(False)
@@ -150,6 +152,7 @@ while running:
     screen.blit(button1_text, button1_rect)
     screen.blit(button2_text, button2_rect)
     screen.blit(button3_text, button3_rect)
+    screen.blit(exit_text, exit_rect)
     screen.blit(mony_text, mony_rect)
     pel = pygame.mouse.get_pos()
     screen.blit(pelyte, pel)
