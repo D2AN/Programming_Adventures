@@ -2,7 +2,6 @@
 import pygame as pg
 import sys  # Importuojamas modulis programos išėjimui valdyti
 import re  # Importuojamas reguliariųjų išraiškų modulis
-
 # Pygame bibliotekos inicializacija
 pg.init()
 
@@ -15,7 +14,7 @@ eaukstis = info.current_h  # Ekrano aukštis
 buton = ['buton.png', 'butononmause.png']
 
 # Butonų dydžiai (tuple: (plotis, aukštis))
-bdydis = [(eplotis / 10, eaukstis / 8), (eplotis / 10 + 10, eaukstis / 8 + 10)]
+bdydis = [(eplotis / 10 + 50, eaukstis / 8), (eplotis / 10 + 60, eaukstis / 8 + 10)]
 
 # Pirmojo ir antrojo butonų paveikslai
 pirmas = pg.image.load(buton[0])
@@ -24,10 +23,10 @@ antras = pg.image.load(buton[0])
 # Kvadrato objektai, susieti su butonų paveikslais
 pirmas_rect = pirmas.get_rect()
 antras_rect = antras.get_rect()
-
+antras_rect.size = pirmas_rect.size = bdydis[0]
 # Pradinės koordinatės pirmajam ir antrajam butonui (x, y)
-kordinate1 = [eaukstis / 6, eaukstis - 150]
-kordinate2 = [eaukstis / 6, eaukstis - 150]
+kordinate1 = [eplotis / 1.5, eaukstis / 1.3]
+kordinate2 = [eplotis / 6, eaukstis / 1.3]
 
 # Priskiriamos butonų pradinės pozicijos
 pirmas_rect.x = kordinate1[0]
@@ -35,19 +34,21 @@ pirmas_rect.y = kordinate1[1]
 antras_rect.x = kordinate2[0]
 antras_rect.y = kordinate2[1]
 
+
 # Pelytės paveikslo failo pavadinimas
 pelyte = 'pelyte.png'
 
 # Sukuriamas ekranas su nurodytais plotiu ir aukščiu
 screen = pg.display.set_mode((eplotis, eaukstis))
-pg.display.set_caption("D2AN")  # Ekrano pavadinimas
+pg.display.set_caption("Programing adventures")  # Ekrano pavadinimas
 
 # Spalvų konstantos
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 # Failų pavadinimai, naudojami veikėjo komponentėms
-veikejes = 'player_frame.png'
+veikejes = 'Bapkes.png'
+siena = 'Siena.png'
 alertl = 'alertlangelis.png'
 
 # Veikėjo komponentės
@@ -58,11 +59,13 @@ maikė = ['maikė.png']
 
 # Veikėjo paveikslas
 veikejes = pg.image.load(veikejes)
-veikejes_rect = veikejes.get_rect()
+siena = pg.image.load(siena)
+
+
 
 # Alerto langelio paveikslas
 alertl = pg.image.load(alertl)
-alertl = pg.transform.scale(alertl, (eplotis, eaukstis))
+alertl = pg.transform.scale(alertl, (eplotis / 1.46 , eaukstis / 1.38))
 
 # Fono paveikslas
 background_image = pg.image.load("backgraund.png").convert()
@@ -71,7 +74,16 @@ background_image = pg.transform.scale(background_image, (eplotis, eaukstis))
 # Teksto šriftas
 font = pg.font.Font(None, 40)
 text = ""  # Pradžioje tekstas yra tuščias
-movex = 'To move player in screen write: Player.x = Player.x + `number`; Or Player.x += `number`'
+movex = 'To move player in screen write: Player.x += `number`'
+moveb = 'To move back in screen write: Player.x -= `number`'
+jump = 'To jump write: jump()'
+close = 'Exit'
+closea = 'Close'
+moveb_blit = font.render(moveb, True, BLACK)
+movex_blit = font.render(movex, True, BLACK)
+jump_blit = font.render(jump, True, BLACK)
+close_blit = font.render(close, True, BLACK)
+closea_blit = font.render(closea, True, BLACK)
 
 # Pygame garso sistemos inicializacija
 pg.mixer.init()
@@ -89,7 +101,7 @@ game_music = pg.mixer.Sound("Game.mp3")
 game_music.set_volume(0.3)
 
 # Kintamieji žaidimo mechanikai
-vx = x = 0
+vx = x = 80
 numbers = ['0']
 xskaicius = 0
 tik = tiky = 0
@@ -110,10 +122,30 @@ pg.mouse.set_visible(False)
 
 # Pelytės paveikslas
 pelyte = pg.image.load(pelyte)
-
+with open('level.txt', 'r') as file:
+    if file.read() == '':
+        lvl = 0
+        with open('level.txt', 'w') as file:
+            file.write(str(lvl))            
+    else:
+        with open('level.txt', 'r') as file:
+            lvl = int(file.read())
+with open('varibles.txt', 'r') as file:
+    if file.read() == '':
+        mony = 0
+        with open('varibles.txt', 'w') as file:
+            file.write(str(mony))            
+    else:
+        with open('varibles.txt', 'r') as file:
+            mony = int(file.read())
 # Būsena, ar kažką rodyti ekrane
+g = 3
 show = False
 running = True
+def separateNumbersText(text):          
+    numbers = re.findall(r'\d+', text)
+    Playerx = re.sub(r'\d+', '', text)
+    return numbers, Playerx.strip()
 while running:
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -123,25 +155,20 @@ while running:
             if event.key == pg.K_BACKSPACE:  # Jei paspaudžiama backspace, ištriname paskutinį simbolį
                 text = text[:-1]
             elif event.key == pg.K_RETURN:  # Jei paspaudžiama enter, galite apdoroti įvestį arba ją atvaizduoti
-                def separateNumbersText(text):
-                    
-                    numbers = re.findall(r'\d+', text)
-                    Playerx = re.sub(r'\d+', '', text)
-                    return numbers, Playerx.strip()
+                
                 numbers, Playerv = separateNumbersText(text)
                 if 'numbers' in locals() and len(numbers) > 0:
                     xskaicius = int(numbers[0])
                 if Playerv == 'Player.x = Player.x +' or Playerv == 'Player.x +=' or Playerv == 'Player.x =  + Player.x':
                     if tik < xskaicius:
-                       xskaicius = int(numbers[0])
                        k = 1
-                if Playerv == 'Player.x = Player.x -' or Playerv == 'Player.x -=' or Playerv == 'Player.x =  - Player.x':
+                if Playerv == 'Player.x = Player.x -' or Playerv == 'Player.x -=' or Playerv == 'Player.x =  - Player.x' or Playerv == 'Player.x += -':
                     if tik < xskaicius:
-                       xskaicius = int(numbers[0])
                        km = 1
                 
                 if Playerv == 'jump()':
                     yk = 1
+                text = ''     
             else:
                 text += event.unicode  # Pridedame simbolį į teksto eilutę
             if event.key == pg.K_ESCAPE:
@@ -160,10 +187,7 @@ while running:
     screen.blit(background_image, (0,0))
     
     # cia tipo gravitacije ir taip taisykles kurios padaro jog is mepo neiseitu
-    
-    # screen.fill(WHITE)
-    
-    
+
     pel = pg.mouse.get_pos()
     if alert:
         
@@ -171,36 +195,82 @@ while running:
         kelnės1 = pg.image.load(kelnės[0])
         maikė1 = pg.image.load(maikė[0])
         veidas1 = pg.image.load(veidas[0])
-        movex_blit = font.render(movex, True, BLACK)
-        text_blit = font.render(text, True, BLACK)
-        text_surface = font.render(text, True, (0, 0, 0))
-        screen.blit(text_blit, (0, 100))  # Sukuriame tekstą
-        # screen.blit(movex_blit, (100, 200))
+        veikejes_rect = veikejes.get_rect()
+        veikejes_rect.x, veikejes_rect.y = (900, eaukstis / 1.88)
+
+        kunas_rect = kunas1.get_rect()
+        kunas_rect.x, kunas_rect.y = x,y
+        text_blit = font.render(text, True,(0, 0, 0), (255,255,255))
+        text_surface = font.render(text, True, (255,255,255),(0, 0, 0))
+        screen.blit(text_blit, (eplotis / 3, 100))  # Sukuriame tekstą
+        screen.blit(veikejes, (900, eaukstis / 1.88))
         screen.blit(kunas1, (x,y))
         screen.blit(kelnės1, (x,y))
         red_maike = maikė1.copy()
         red_maike.fill((0, 30, 30), None, pg.BLEND_ADD)
         screen.blit(red_maike, (x,y))
-        screen.blit(veidas1, (x,y))
-        if x > eplotis:
-         x = 0
+        screen.blit(veidas1, (x,y))        
+        siena1_rect = siena_rect = siena.get_rect()
+        
+        if lvl == 0:
+            if veikejes_rect.colliderect(kunas_rect):
+                x = 80
+                tik = 0
+                xskaicius = 0
+                mony += 1
+                lvl += 1
+       
+        elif lvl == 1:
+            
+            siena_rect.x, siena_rect.y = (400, eaukstis / 3)
+            screen.blit(siena, (400, eaukstis / 3))     
+            if siena_rect.colliderect(kunas_rect):
+                x -= 3
+            if veikejes_rect.colliderect(kunas_rect):
+                x = 80
+                tik = 0
+                xskaicius = 0
+                mony += 1
+                lvl += 1
+        elif lvl == 2:
+            siena1_rect.x, siena1_rect.y = (800, eaukstis / 1.7)
+            screen.blit(siena, (800, eaukstis / 1.7)) 
+            siena_rect.x, siena_rect.y = (0, eaukstis / 3)  
+            screen.blit(siena, (0, eaukstis / 3))   
+            if siena_rect.colliderect(kunas_rect):
+                x += 6 
+            if siena1_rect.colliderect(kunas_rect):
+                x -= 3   
+        
+            
+        
+            if veikejes_rect.colliderect(kunas_rect):
+                x = 80
+                tik = 0
+                xskaicius = 0
+                mony += 1
+                lvl += 1            
+        if x > eplotis - 200:
+            x = 0
+        if x < -10:
+            x = eplotis - 201
         if k == 1:
-            tik += 1
-            x += 1
-            if tik == xskaicius:
+            tik += 3
+            x += 2
+            if tik > xskaicius:
                 xskaicius = 0
                 tik = 0
                 k = 0 
                 text = ''
-    
+
         if km == 1:
             tik += 1
-            x -= 1
-            if tik == xskaicius:
+            x -= 3
+            if tik > xskaicius:
                 xskaicius = 0
                 tik = 0
                 km = 0 
-                text = ''
+               
         if yk == 1:
             tiky -= 1
             y -= 2
@@ -210,23 +280,43 @@ while running:
             y += 2
             tiky = 0
             yk = 0 
-            text = ''  
-            if y > eaukstis / 3:
+            
+            if y > eaukstis / 3:  
                 c = 0 
+        with open('level.txt', 'w') as file:
+            file.write(str(lvl))          
+        with open('varibles.txt', 'w') as file:
+            file.write(str(mony)) 
+        screen.blit(veikejes, (eplotis - 130, 0))  
+        mony_text = font.render(str(mony), True, BLACK)
+        screen.blit(mony_text, (eplotis - 100, 25))      
     else:
         screen.blit(permatoma_spalva, (0, 0))
-        screen.blit(alertl, (0,0))
+        screen.blit(alertl, (eplotis / 7  , eaukstis / 7))
         if event.type == pg.MOUSEBUTTONDOWN:    
             if antras_rect.collidepoint(pg.mouse.get_pos()):
-                        pg.quit()
-                        sys.exit()
+                pg.quit()
+                sys.exit()
+            if pirmas_rect.collidepoint(pg.mouse.get_pos()):
+                alert = True
+        if pirmas_rect.collidepoint(pg.mouse.get_pos()):
+            pirmas = pg.image.load(buton[1])
+            screen.blit(pg.transform.scale(pirmas, bdydis[1]), kordinate1)
+        else:
+            pirmas = pg.image.load(buton[0])
+            screen.blit(pg.transform.scale(pirmas, bdydis[0]), kordinate1)
         if antras_rect.collidepoint(pg.mouse.get_pos()):
             antras = pg.image.load(buton[1])
             screen.blit(pg.transform.scale(antras, bdydis[1]), kordinate2)
         else:
             antras = pg.image.load(buton[0])
             screen.blit(pg.transform.scale(antras, bdydis[0]), kordinate2)
-          
+        screen.blit(jump_blit, (300, 300))  
+        screen.blit(movex_blit, (300, 200))
+        screen.blit(moveb_blit, (300, 250))
+        screen.blit(close_blit, (kordinate2[0] + 50 ,  kordinate2[1] + 40))  
+        screen.blit(closea_blit, (kordinate1[0] + 50 ,  kordinate1[1] + 40)) 
+         
                 
     if show:        
         fps = str(int(clock.get_fps()))
@@ -242,7 +332,8 @@ while running:
         screen.blit(eplotis_text, (10, 100))
         screen.blit(eaukstis_text, (10, 130))
         screen.blit(xskaicius_text, (10, 160))
-    clock.tick(60)
+        clock.tick(100)
+    
     screen.blit(pelyte, pel)
     pg.display.update()
 

@@ -134,7 +134,6 @@ while running:
     if trecias_rect.collidepoint(pygame.mouse.get_pos()):
        trecias = pygame.image.load(buton[1])
        screen.blit(pygame.transform.scale(trecias, bdydis[1]), kordinate3)
-       mony = 1 + mony 
     else:
         trecias = pygame.image.load(buton[0])
         screen.blit(pygame.transform.scale(trecias, bdydis[0]), kordinate3)
@@ -156,10 +155,7 @@ while running:
     screen.blit(mony_text, mony_rect)
     pel = pygame.mouse.get_pos()
     screen.blit(pelyte, pel)
-    with open('varibles.txt', 'w') as file:
-        file.write(str(mony)) 
-    with open('varibles.txt', 'r') as file:
-        mony = int(file.read())
+
    
     pygame.display.flip()
 
