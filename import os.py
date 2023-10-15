@@ -1,27 +1,18 @@
 import os
-import requests
-import zipfile
+import subprocess
 
-# Nurodykite GitHub repozitorijos ZIP archyvo URL
-repo_url = "https://github.com/NIKASURG/D2AN/archive/main.zip"
+# GitHub repozitorijos savininko vardas ir repozitorijos pavadinimas
+owner = "NIKASURG"
+repo_name = "D2AN"
 
-# Katalogas, kuriame atsisiųsti ZIP archyvą
+# Katalogas, kuriame atsisiųsti repozitoriją
 appdata_folder = os.path.expanduser(f"~\\AppData\\Roaming\\PAadventures")
 
 # Sukurkite `AppData` katalogą, jei jis neegzistuoja
 os.makedirs(appdata_folder, exist_ok=True)
 
-# Atsisiųskite ZIP archyvą
-response = requests.get(repo_url)
-if response.status_code == 200:
-    zip_file_path = os.path.join(appdata_folder, "main.zip")
-    with open(zip_file_path, "wb") as f:
-        f.write(response.content)
+# Git komanda norint atsisiųsti repozitoriją
+git_clone_command = f"git clone https://github.com/{owner}/{repo_name}.git {appdata_folder}"
 
-    # Išpakuokite ZIP archyvą į `AppData` katalogą
-    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-        zip_ref.extractall(appdata_folder)
-
-    os.remove(zip_file_path)  # Ištrinti ZIP archyvą po išpakavimo
-else:
-    print(f"Klaida atsiunčiant ZIP archyvą. HTTP statusas: {response.status_code}")
+# Atsisiųskite repozitoriją naudodami Git komandą
+subprocess.run(git_clone_command, shell=True)
