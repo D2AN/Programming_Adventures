@@ -3,7 +3,7 @@ import requests
 import zipfile
 
 # Nurodykite GitHub repozitorijos ZIP archyvo URL
-repo_url = "https://github.com/NIKASURG/D2AN/raw/D2AN/PAadventures.zip"
+repo_url = "https://github.com/NIKASURG/D2AN/archive/main.zip"
 
 # Katalogas, kuriame atsisiųsti ZIP archyvą
 appdata_folder = os.path.expanduser(f"~\\AppData\\Roaming\\PAadventures")
@@ -14,7 +14,7 @@ os.makedirs(appdata_folder, exist_ok=True)
 # Atsisiųskite ZIP archyvą
 response = requests.get(repo_url)
 if response.status_code == 200:
-    zip_file_path = os.path.join(appdata_folder, "PAadventures.zip")
+    zip_file_path = os.path.join(appdata_folder, "main.zip")
     with open(zip_file_path, "wb") as f:
         f.write(response.content)
 
