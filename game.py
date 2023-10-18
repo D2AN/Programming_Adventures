@@ -12,14 +12,14 @@ eaukstis = info.current_h  # Ekrano aukštis
 
 # Butonų paveikslų failų pavadinimai
 buton = ['buton.png', 'butononmause.png']
-
+maikes = 'm'
 # Butonų dydžiai (tuple: (plotis, aukštis))
 bdydis = [(eplotis / 10 + 50, eaukstis / 8), (eplotis / 10 + 60, eaukstis / 8 + 10)]
 
 # Pirmojo ir antrojo butonų paveikslai
 pirmas = pg.image.load(buton[0])
 antras = pg.image.load(buton[0])
-
+game = False
 # Kvadrato objektai, susieti su butonų paveikslais
 pirmas_rect = pirmas.get_rect()
 antras_rect = antras.get_rect()
@@ -134,7 +134,7 @@ c = 0
 loading = 0
 # Pygame laikrodis
 clock = pg.time.Clock()
-
+shop = False
 # Alerto langelio būsena
 alert = True
 meniu = True
@@ -164,6 +164,7 @@ with open('varibles.txt', 'r') as file:
         with open('varibles.txt', 'r') as file:
             mony = int(file.read())
 # Būsena, ar kažką rodyti ekrane
+meni = True
 g = 3
 show = False
 running = True
@@ -173,10 +174,9 @@ def separateNumbersText(text):
     return numbers, Playerx.strip()
 while running:
     for event in pg.event.get():
-        if event.type == pg.QUIT:
-            running = False
-        elif event.type == pg.KEYDOWN: 
-           
+        if event.type == pg.KEYDOWN: 
+            if event.key == pg.K_SPACE:  # Jei paspaudžiama backspace, ištriname paskutinį simbolį
+                loading = 1000000
             if event.key == pg.K_BACKSPACE:  # Jei paspaudžiama backspace, ištriname paskutinį simbolį
                 text = text[:-1]
             elif event.key == pg.K_RETURN:  # Jei paspaudžiama enter, galite apdoroti įvestį arba ją atvaizduoti
@@ -218,44 +218,57 @@ while running:
             screen.blit(logo,(0,0))
             pg.draw.rect(screen, (255,0,0), pg.Rect(30, eaukstis - 100, int(loading), 50))
             vx = x = 80
-            y = eaukstis - 500
-        else:   
+            y = eaukstis - 500 
+
+        elif meni:   
             screen.blit(galas,(0,0))
-            if event.type == pg.MOUSEBUTTONDOWN:
-                screen.blit(galas, (0,0))
-                if event.button == 1:
-                    x, y = event.pos
-                    if m1_rect.collidepoint(pg.mouse.get_pos()):
-                        loading = 0
-                        meniu = False
-                    if m2_rect.collidepoint(pg.mouse.get_pos()):
-                        print('antras')
-                    if m3_rect.collidepoint(pg.mouse.get_pos()):
-                        print('trecias')
-                    if m4_rect.collidepoint(pg.mouse.get_pos()):
-                        pg.quit()
-                        sys.exit() 
             if m1_rect.collidepoint(pg.mouse.get_pos()):
                 m1 = pg.image.load(buton[1])
                 screen.blit(pg.transform.scale(m1, bdydis[1]), km1)
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        x, y = event.pos
+                        if m1_rect.collidepoint(pg.mouse.get_pos()):
+                            loading = 0
+                            meniu = False
+                            game = True
             else:
                 m1 = pg.image.load(buton[0])
                 screen.blit(pg.transform.scale(m1, bdydis[0]), km1)
             if m2_rect.collidepoint(pg.mouse.get_pos()):
                 m2 = pg.image.load(buton[1])
                 screen.blit(pg.transform.scale(m2, bdydis[1]), km2)
+                if event.type == pg.MOUSEBUTTONDOWN:
+                
+                    if event.button == 1:
+                        x, y = event.pos
+                        if m2_rect.collidepoint(pg.mouse.get_pos()):
+                            Shop = True
+                            meni = False
             else:
                 m2 = pg.image.load(buton[0])
                 screen.blit(pg.transform.scale(m2, bdydis[0]), km2)
             if m3_rect.collidepoint(pg.mouse.get_pos()):
                 m3 = pg.image.load(buton[1])
                 screen.blit(pg.transform.scale(m3, bdydis[1]), km3)
+                if event.type == pg.MOUSEBUTTONDOWN:
+                
+                    if event.button == 1:
+                        x, y = event.pos
+                        if m3_rect.collidepoint(pg.mouse.get_pos()):
+                            print('trecias')
             else:
                 m3 = pg.image.load(buton[0])
                 screen.blit(pg.transform.scale(m3, bdydis[0]), km3)
             if m4_rect.collidepoint(pg.mouse.get_pos()):
                 m4 = pg.image.load(buton[1])
                 screen.blit(pg.transform.scale(m4, bdydis[1]), km4)
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        x, y = event.pos
+                        if m4_rect.collidepoint(pg.mouse.get_pos()):
+                            pg.quit()
+                            sys.exit()
             else:
                 m4 = pg.image.load(buton[0])
                 screen.blit(pg.transform.scale(m4, bdydis[0]), km4)
@@ -263,6 +276,9 @@ while running:
             screen.blit(shop_text, (km2[0] + 50,km2[1] + 30))
             screen.blit(setings_text, (km3[0] + 50,km3[1] + 30))
             screen.blit(exit_text, (km4[0] + 50,km4[1] + 30))
+        elif shop:
+            show = True
+        
     else:
         if loading  < eplotis / 1.2:
             loading += 3
