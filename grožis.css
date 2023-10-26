@@ -5,6 +5,17 @@
     /* Panaikinkite kabutes aplink procentus */
 }
 
+body {
+    margin: 0;
+    position: relative;
+}
+
+#ekranas {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+}
+
 
 /* CSS */
 
@@ -49,7 +60,16 @@
     }
 }
 
-#miktukas2 {
-    position: relative;
-    left: 70%;
+@media (min-width: 992px) {
+    #miktukas2 {
+        position: relative;
+        left: 50%;
+    }
+}
+
+@media (max-width: 992px) {
+    #miktukas2 {
+        position: relative;
+        left: 50%;
+    }
 }
