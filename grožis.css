@@ -16,7 +16,9 @@ body {
     width: 100%;
 }
 
-
+.mainbox{    
+    display: block;
+    width: 100%;}
 /* CSS */
 
 .button-40 {
