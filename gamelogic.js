@@ -13,7 +13,12 @@ window.addEventListener("load", () => {
     var ctx = manoCanvas.getContext("2d");
     ctx.beginPath();
     ctx.stroke();
+    
 
+    // Naudojame reguliariąją išraišką, kad išskirtume "Player.x +=" ir "500"
+    // var codeplace = document.getElementById("codeplace"); // Gaukite input elementą pagal jo id
+    // var tekstas = codeplace.value;
+    // var rezultatas = tekstas.match(/(Player\.x \+=) (\d+)/);
     var kelnes = document.getElementById('kelnes');
     var maike = document.getElementById('maike');
     var oda = document.getElementById('oda');
@@ -25,31 +30,53 @@ window.addEventListener("load", () => {
     var y = ekranoAukstis - kunoaukstis
     document.addEventListener("keydown", (event) => {
             switch (event.key) {
-                case "s":
-                case "S":
+                // case "s":
+                // case "S":
+                // case "ArrowDown":
+                //     y += 10;
+                case "Enter":
                 case "ArrowDown":
-                    y += 10;
-                  
-                    break;
-                case "w":
-                case "W":
-                case "ArrowUp":
-                    y -= 10;
+                var codeplace = document.getElementById("codeplace"); // Gaukite input elementą pagal jo id
+                var tekstas = codeplace.value;
+                var rezultatas = tekstas.match(/(Player\.x \+=) (\d+)/);
+
+                if (rezultatas) {
+                    var skaicius = parseInt(rezultatas[2], 10);
+                    skaiciustemp = skaicius
+                    xtemp = x
+                    function iteracija() {
+                        if (x < xtemp + skaicius) {
+                            x++;
+                            console.log(x); // Čia jūsų veiksmų logika
+                            setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
+                        }
+                    }
+                    
+                    iteracija();
                    
-                    break;
-                case "d":
-                case "D":
-                case "ArrowRight":
-                    x += 30;
-                    break;
-                case "a":
-                case "A":
-                case "ArrowLeft":
-                    x -= 30;
-                    break;
+                } else {
+                    console.log("Nepavyko rasti atitikimo");
+                }
+                //     break;
+                // case "w":
+                // case "W":
+                // case "ArrowUp":
+                //     y -= 10;
+                   
+                //     break;
+                // case "d":
+                // case "D":
+                // case "ArrowRight":
+                //     x += 3;
+                //     break;
+                // case "a":
+                // case "A":
+                // case "ArrowLeft":
+                //     x -= 3;
+                //     break;
     
-                default:
-                    break;
+                // default:
+                //     break;
             }
             console.log();
         });
@@ -62,7 +89,7 @@ window.addEventListener("load", () => {
         ctx.drawImage(maike, x, y,kunoplotis,kunoaukstis);
         ctx.drawImage(plaukai, x + kunoplotis / 6, y - kunoaukstis/3 ,kunoplotis,kunoaukstis);
         ctx.drawImage(veidas, x + kunoplotis / 6, y - kunoaukstis/3,kunoplotis,kunoaukstis);
-     
+        
         requestAnimationFrame(kartojimas);
     }kartojimas();
 });
