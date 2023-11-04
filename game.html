@@ -1,18 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<html lang="en"><link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><style lang="en" type="text/css" id="dark-mode-native-style"></style><style lang="en" type="text/css" id="dark-mode-native-sheet"></style><head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game</title>
-    <script scr="gamelogic.js"></script>
+    <title>Preview</title>
+    <!--<script src="scriptass.js"></script>-->
+    <script id="start" src="gamelogic.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            position: relative;
+            background-image: url(backgraund.png);
+            background-size: cover; /* Užima visą ekrano plotį ir aukštį */
+            background-attachment: fixed; /* Fono paveiksliukas lieka pritvirtintas net slenkant puslapiu */
+        }
+        
+        #ekranas {
+            position: fixed;
+            height: 100vh;
+            width: 100vw;
+            
+        }
+        #codeplace{
+            
+            position: fixed;
+            right: 50vw;
+            border-width: 0px;
+            
+        }
+    </style>
 </head>
 
-<body>
-    <div id="ekranas">
-
-        <canvas id="canvas"></canvas>
+<body >
+   
+    <div id="ekranas"><input id="codeplace"></input>
+        <canvas id="canvas" height="651" width="1366"></canvas> 
+       
     </div>
-</body>
-
-</html>
+    </canvas>
+    <img id="maike" src="m1.png" hidden="">
+    <img id="kelnes" src="k10.png" hidden="">
+    <img id="oda" src="o3.png" hidden="">
+    <img id="plaukai" src="pl13.png" hidden="">
+    <img id="veidas" src="v2.png" hidden="">
+</body></html>
