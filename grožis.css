@@ -1,8 +1,61 @@
-#yt {
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    margin: 0;
+    background-image: url(menu_1.png);
+    background-size: cover; /* Užima visą ekrano plotį ir aukštį */
+    background-attachment: fixed; /* Fono paveiksliukas lieka pritvirtintas net slenkant puslapiu */
+  
+}
+
+.mainbox {
+    text-align: center;
+    padding: 10%;
+}
+
+.button {
+        padding: 30px 35px;
+        background-image: url(buton.png);
+        background-size: contain; /* Paveiksliukas užims pilną mygtuko dydį */
+    }
+.m1{
+    position: absolute;
+    left: 43%;
+    top: 55%;
+}
+.m2{
+    position: absolute;
+    left: 43%;
+    top: 70%;
+}
+
+/*
+    .mainbox iframe {
+        max-width: 100%;
+        height: auto;
+    };
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 10%;
+        margin-top: 10%;
+    };
+
+    .button-40 {
+        padding: 10px 20px;
+    }; */ 
+    
+
+
+
+/* #yt {
     height: 15cm;
-    /* Panaikinkite kabutes aplink procentus */
+   
     width: 100%;
-    /* Panaikinkite kabutes aplink procentus */
+    
 }
 
 body {
@@ -19,7 +72,7 @@ body {
 .mainbox{    
     display: block;
     width: 100%;}
-/* CSS */
+
 
 .button-40 {
     background-color: #111827;
@@ -74,4 +127,4 @@ body {
         position: relative;
         left: 50%;
     }
-}
+} */
