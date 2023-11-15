@@ -37,10 +37,21 @@ window.addEventListener("load", () => {
     // Pradėkite skaičiuoti FPS
     calculateFPS();
     setInterval(updateFPS, 1000);
-    // Naudojame reguliariąją išraišką, kad išskirtume "Player.x +=" ir "500"
-    // var codeplace = document.getElementById("codeplace"); // Gaukite input elementą pagal jo id
-    // var tekstas = codeplace.value;
-    // var rezultatas = tekstas.match(/(Player\.x \+=) (\d+)/);
+
+    // function circle(x, y, r, c) {
+    //     ctx.beginPath();
+    //     var rad = ctx.createRadialGradient(x, y, 1, x, y, r);
+    //     rad.addColorStop(0, c);
+    //     rad.addColorStop(1, 'transparent');
+    //     ctx.fillStyle = rad;
+    //     ctx.arc(x, y, r, 0, Math.PI*2, false);
+    //     ctx.fill();
+    // }
+    
+    // ctx.fillRect(0, 0, 256, 256);
+    
+    // circle(128, 128, 200, 'red');
+    // circle(64, 64, 30,    'green');
     var kelnes = document.getElementById('kelnes');
     var maike = document.getElementById('maike');
     var oda = document.getElementById('oda');
@@ -56,8 +67,8 @@ window.addEventListener("load", () => {
     var backgraundl = [backgraund, backgraundnight]
     var kunoaukstis = ekranoAukstis / 5
     var kunoplotis = ekranoAukstis / 10
-    var x = 0
-    var y = ekranoAukstis - kunoaukstis
+    var x = 200
+    var y = ekranoAukstis / 1.5 - kunoaukstis
     var d12x = 375   
     var d13x = 598
     var d14x = 243
@@ -69,9 +80,19 @@ window.addEventListener("load", () => {
     var d1y = 0
     var d1x = 811
     var sx = 0
-    var sy = ekranoAukstis / 2 
+    var sy = ekranoAukstis / 3
     kurisdk = 0
     Inputclear = true
+    var gr = 0
+    function tam()
+    {
+        if(gr < 0.998){gr += 0.01}        
+                
+    }
+    function svie()
+    {
+        if(gr > 0.01){gr -= 0.01}        
+    }
     document.addEventListener("keydown", (event) => {
             switch (event.key) {
                 // case "s":
@@ -103,10 +124,10 @@ window.addEventListener("load", () => {
                         console.log("Nepavyko rasti atitikimo");
                     }
                     break;
-                case "*" && "/":
-                    Inputclear = !Inputclear;
-                    break;
-
+                    case "*" && "/":
+                        Inputclear = !Inputclear;
+                        break;
+                        
                     
                 case "w":
                 case "W":
@@ -142,12 +163,21 @@ window.addEventListener("load", () => {
         d22x += 2 
         d23x += 2 
         d24x += 2
-        sx++
-        if(sy > 30 && sx < ekranoPlotis / 2){sy -= 0.4}
-        else{sy += 0.4}
+        
+        sx += 0.2
+        if( sx > ekranoPlotis /2 ){
+            sy += ekranoAukstis  / sy / 200
+        }
+        else{
+            sy -= ekranoAukstis / sy / 200  
+        }
         ctx.clearRect(0, 0, manoCanvas.width, manoCanvas.height); // Ištriname seną paveikslėlį 
-        ctx.drawImage(backgraundl[kurisdk],0,0,ekranoPlotis,ekranoAukstis);
-        ctx.drawImage(dankunas[kurisdk], sx,sy);
+      
+        ctx.drawImage(backgraundl[0],0,0,ekranoPlotis,ekranoAukstis); 
+        ctx.globalAlpha = gr;
+        ctx.drawImage(backgraundl[1],0,0,ekranoPlotis,ekranoAukstis);
+        ctx.globalAlpha = 1;
+        ctx.drawImage(dankunas[kurisdk], sx,sy,100,100);
         ctx.drawImage(debesis1, d1x,d1y + 69);        
         ctx.drawImage(debesis1, d12x,d1y + 72);
         ctx.drawImage(debesis1, d13x,d1y);
@@ -156,7 +186,7 @@ window.addEventListener("load", () => {
         ctx.drawImage(debesis2, d22x,d2y+120);
         ctx.drawImage(debesis2, d23x,d2y+90);
         ctx.drawImage(debesis2, d24x,d2y+40);
-        
+      
         ctx.drawImage(oda, x, y,kunoplotis,kunoaukstis);
         ctx.drawImage(kelnes, x, y,kunoplotis,kunoaukstis);
         ctx.drawImage(maike, x, y,kunoplotis,kunoaukstis);
@@ -172,11 +202,39 @@ window.addEventListener("load", () => {
        if(d24x > ekranoPlotis){d24x = -100}
        if(sx > ekranoPlotis){
         sx = 0 
+        sy = ekranoAukstis / 3 
         if (kurisdk === 0) {
             kurisdk = 1;
         } else {
             kurisdk = 0;
         }}
+        if (sx > ekranoPlotis * 0.9 && kurisdk === 0){
+           svie()
+        } 
+        else if(sx < ekranoPlotis * 0.1 && kurisdk === 1)
+        {
+            
+            tam()
+            
+        }
+        if (sx > ekranoPlotis * 0.9 && kurisdk === 0){
+            tam()
+         } 
+         else if(sx < ekranoPlotis * 0.1 && kurisdk === 0)
+         {
+             
+            svie()
+             
+         }console.log(gr)
+        
+    const grd = ctx.createRadialGradient(ekranoPlotis / 2, ekranoAukstis / 2, 0, ekranoPlotis / 2, ekranoAukstis / 2, Math.max(ekranoPlotis, ekranoAukstis));
+
+    grd.addColorStop(1,"rgba(255, 255, 255, 0)");
+    grd.addColorStop(1,"rgba(7, 54, 180)");
+
+// Fill with gradient
+ctx.fillStyle = grd;
+ctx.fillRect(0,0,ekranoPlotis,ekranoAukstis);
         requestAnimationFrame(kartojimas);
     }kartojimas();
 });
