@@ -1,3 +1,4 @@
+// 0 = day 1 = night
 window.addEventListener("load", () => {
 
     // ekrano aukstis ir plotis
@@ -13,12 +14,12 @@ window.addEventListener("load", () => {
     var ctx = manoCanvas.getContext("2d");
     ctx.beginPath();
     ctx.stroke();
-    var fpsCounter = document.getElementById("fpsCounter");
+// var fpsCounter = document.getElementById("fpsCounter");
     var frameCount = 0;
     var fps = 0;
 
         function updateFPS() {
-            fpsCounter.innerHTML = "FPS: " + fps;
+            console.log(fps + 'fps')
 
             // Nustatome FPS skaičių į pradinę reikšmę
             fps = frameCount;
@@ -54,7 +55,7 @@ window.addEventListener("load", () => {
     // circle(64, 64, 30,    'green');
     var kelnes = document.getElementById('kelnes');
     var maike = document.getElementById('maike');
-    var oda = document.getElementById('oda');
+    var odaElementas  = document.getElementById('oda');
     var plaukai = document.getElementById('plaukai');
     var veidas = document.getElementById('veidas');
     var debesis1 = document.getElementById('debesis1');
@@ -63,6 +64,20 @@ window.addEventListener("load", () => {
     var debesis2 = document.getElementById('debesis2');
     var backgraund = document.getElementById('backgraund');
     var backgraundnight = document.getElementById('backgraundnight');
+    var BapkesElementas  = document.getElementById('Bapkes');
+    var BapkesPlotis = BapkesElementas.width;
+var BapkesAukstis = BapkesElementas.height;
+
+var odaPlotis = odaElementas.width;
+var odaAukstis = odaElementas.height;
+var Bapkes1 = { x: bapx, y: bapy, plotis: BapkesPlotis, aukstis: BapkesAukstis };
+var oda1 = { x: x, y: y, plotis: odaPlotis, aukstis: odaAukstis };
+function arSusikerta(objektas1, objektas2) {
+    return objektas1.x < objektas2.x + objektas2.plotis &&
+           objektas1.x + objektas1.plotis > objektas2.x &&
+           objektas1.y < objektas2.y + objektas2.aukstis &&
+           objektas1.y + objektas1.aukstis > objektas2.y;
+}
     var dankunas = [saule, menulis]
     var backgraundl = [backgraund, backgraundnight]
     var kunoaukstis = ekranoAukstis / 5
@@ -83,7 +98,12 @@ window.addEventListener("load", () => {
     var sy = ekranoAukstis / 3
     kurisdk = 0
     Inputclear = true
+    var lvl = 0 
     var gr = 0
+    var menu = false
+    var bapx = 800
+    var bapy = ekranoAukstis / 1.3 - kunoaukstis
+
     function tam()
     {
         if(gr < 0.998){gr += 0.01}        
@@ -95,32 +115,47 @@ window.addEventListener("load", () => {
     }
     document.addEventListener("keydown", (event) => {
             switch (event.key) {
-                // case "s":
-                // case "S":
-                // case "ArrowDown":
-                //     y += 10;
+                // case "Escape":
+                //     if(!menu){document.getElementById('setings').style.visibility = 'visible';
+                // menu = true}
+                //     else{document.getElementById('setings').style.visibility = 'hidden';
+                //         menu = false}
+
                 case "Enter":
                     var codeplace = document.getElementById("codeplace"); // Gaukite input elementą pagal jo id
                     var tekstas = codeplace.value;
                     var rezultatas1 = tekstas.match(/(Player\.x \+=) (\d+)/);
-                    var rezultatas1 = tekstas.match(/(Player\.x \+=) (\d+)/);
+                    var rezultatas2 = tekstas.match(/(Player\.x \-=) (\d+)/);
                     if(Inputclear){codeplace.value = "";}
+                    
+                    xtemp = x
+                    xtemp2 = x
                     if (rezultatas1) {
-                        var skaicius = parseInt(rezultatas1[2], 10);
+                      var skaicius = parseInt(rezultatas1[2], 10);  
                         
-                        skaiciustemp = skaicius
-                        xtemp = x
+                        
                         function iteracija() {
-                            if (x < xtemp + skaicius) {
+                            if (xtemp2 < xtemp + skaicius) {
                                 x++;
+                                xtemp2++;
                                 console.log(x); // Čia jūsų veiksmų logika
                                 setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
                             }
+                           
                         }
+                        
                     // ifelse(rezultatas2){};   
-                        iteracija();
-                    
-                    } else {
+                        
+                    iteracija();
+                    } else if(rezultatas2){
+                        var skaicius = parseInt(rezultatas2[2], 10);
+                        function iteracija() {if(xtemp2 < xtemp + skaicius){ 
+                            x--;
+                            xtemp2++;
+                            console.log(x); // Čia jūsų veiksmų logika
+                            setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
+                        }}
+                        iteracija();} else {
                         console.log("Nepavyko rasti atitikimo");
                     }
                     break;
@@ -129,32 +164,34 @@ window.addEventListener("load", () => {
                         break;
                         
                     
-                case "w":
-                case "W":
-                case "ArrowUp":
-                    y -= 10;
+                // case "w":
+                // case "W":
+                // case "ArrowUp":
+                //     y -= 10;
                    
-                    break;
-                case "d":
-                case "D":
-                case "ArrowRight":
-                    x += 3;
-                    break;
-                case "a":
-                case "A":
-                case "ArrowLeft":
-                    x -= 3;
-                    break;
+                //     break;
+                // case "d":
+                // case "D":
+                // case "ArrowRight":
+                //     x += 3;
+                //     break;
+                // case "a":
+                // case "A":
+                // case "ArrowLeft":
+                //     x -= 3;
+                //     break;
     
-                default:
-                    break;
+                // default:
+                //     break;
             }
             console.log();
         });
 
     //ciklas
     function kartojimas() {
-       
+        Bapkes1 = { x: bapx, y: bapy, plotis: kunoplotis, aukstis: kunoplotis };
+        oda1 = { x: x, y: y, plotis: kunoplotis, aukstis: kunoaukstis };
+        
         d12x++ 
         d13x++ 
         d14x++
@@ -166,10 +203,10 @@ window.addEventListener("load", () => {
         
         sx += 0.2
         if( sx > ekranoPlotis /2 ){
-            sy += ekranoAukstis  / sy / 200
+            sy += ekranoAukstis  / sy / 150
         }
         else{
-            sy -= ekranoAukstis / sy / 200  
+            sy -= ekranoAukstis / sy / 150  
         }
         ctx.clearRect(0, 0, manoCanvas.width, manoCanvas.height); // Ištriname seną paveikslėlį 
       
@@ -186,12 +223,13 @@ window.addEventListener("load", () => {
         ctx.drawImage(debesis2, d22x,d2y+120);
         ctx.drawImage(debesis2, d23x,d2y+90);
         ctx.drawImage(debesis2, d24x,d2y+40);
-      
-        ctx.drawImage(oda, x, y,kunoplotis,kunoaukstis);
+        ctx.drawImage(BapkesElementas , bapx, bapy,kunoplotis,kunoplotis);
+        ctx.drawImage(odaElementas, x, y,kunoplotis,kunoaukstis);
         ctx.drawImage(kelnes, x, y,kunoplotis,kunoaukstis);
         ctx.drawImage(maike, x, y,kunoplotis,kunoaukstis);
         ctx.drawImage(plaukai, x + kunoplotis / 6, y - kunoaukstis/3 ,kunoplotis,kunoaukstis);
         ctx.drawImage(veidas, x + kunoplotis / 6, y - kunoaukstis/3,kunoplotis,kunoaukstis);
+
        if(d1x > ekranoPlotis){d1x = -100}
        if(d2x > ekranoPlotis){d2x = -100}
        if(d12x > ekranoPlotis){d12x = -100}
@@ -226,12 +264,22 @@ window.addEventListener("load", () => {
             svie()
              
          }console.log(gr)
-        
+        if(x < 0){
+            x = ekranoPlotis - kunoplotis
+        }   
+        else if(x > ekranoPlotis){
+            x = 1
+    }
+    
     const grd = ctx.createRadialGradient(ekranoPlotis / 2, ekranoAukstis / 2, 0, ekranoPlotis / 2, ekranoAukstis / 2, Math.max(ekranoPlotis, ekranoAukstis));
 
     grd.addColorStop(1,"rgba(255, 255, 255, 0)");
     grd.addColorStop(1,"rgba(7, 54, 180)");
-
+    if (arSusikerta(Bapkes1, oda1)) {
+        // Čia galite iškviesti jūsų funkciją, kuri turėtų būti iškviesta, kai objektai susikerta.
+        console.log("Objektai susikerta!");
+        x = 0
+    }
 // Fill with gradient
 ctx.fillStyle = grd;
 ctx.fillRect(0,0,ekranoPlotis,ekranoAukstis);
