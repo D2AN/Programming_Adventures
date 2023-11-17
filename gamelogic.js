@@ -71,15 +71,19 @@ window.addEventListener("load", () => {
     var act2  = document.getElementById('act2');
     var act3  = document.getElementById('act3');
     var pur  = document.getElementById('pb');
-    var paveiksliukoDiv = document.getElementById('paveiksliukas');
     var tekstasDiv = document.getElementById('tekstas');
+    var uzdt = document.getElementById('uzdt');
+    var kaip = document.getElementById('kaip');
+    var siena = document.getElementById('Siena');
     var BapkesPlotis = BapkesElementas.width;
 var BapkesAukstis = BapkesElementas.height;
 
 var odaPlotis = odaElementas.width;
 var odaAukstis = odaElementas.height;
-var Bapkes1 = { x: bapx, y: bapy, plotis: BapkesPlotis, aukstis: BapkesAukstis };
-var oda1 = { x: x, y: y, plotis: odaPlotis, aukstis: odaAukstis };
+
+
+// var Bapkes1 = { x: bapx, y: bapy, plotis: BapkesPlotis, aukstis: BapkesAukstis };
+// var oda1 = { x: x, y: y, plotis: odaPlotis, aukstis: odaAukstis };
 function arSusikerta(objektas1, objektas2) {
     return objektas1.x < objektas2.x + objektas2.plotis &&
            objektas1.x + objektas1.plotis > objektas2.x &&
@@ -89,7 +93,7 @@ function arSusikerta(objektas1, objektas2) {
     var dankunas = [saule, menulis]
     var backgraundl = [backgraund, backgraundnight]
     var kunoaukstis = ekranoAukstis / 5
-    var kunoplotis = ekranoAukstis / 10
+    var kunoplotis = ekranoAukstis / 10 + 20
     var x = 200
     var y = ekranoAukstis / 1.5 - kunoaukstis
     var d12x = 375   
@@ -106,13 +110,15 @@ function arSusikerta(objektas1, objektas2) {
     var sy = ekranoAukstis / 3
     kurisdk = 0
     Inputclear = true
-    var lvl = 0 
+    var lvl = 0
     var gr = 0
     var menu = false
     var bapx = 800
     var bapy = ekranoAukstis / 1.3 - kunoaukstis
     istorija = ['','','']
     var sneka = false
+    var sinosaukstis = ekranoAukstis/3
+
     function snekajis() {
         sneka = true;
         setTimeout(function() {
@@ -209,7 +215,7 @@ function arSusikerta(objektas1, objektas2) {
                         Inputclear = !Inputclear;
                         break;
                         
-                    
+                
                 // case "w":
                 // case "W":
                 // case "ArrowUp":
@@ -230,14 +236,14 @@ function arSusikerta(objektas1, objektas2) {
                 // default:
                 //     break;
             }
-            console.log();
+            
         });
 
     //ciklas
     function kartojimas() {
         Bapkes1 = { x: bapx, y: bapy, plotis: kunoplotis, aukstis: kunoplotis };
         oda1 = { x: x, y: y, plotis: kunoplotis, aukstis: kunoaukstis };
-        
+        var sienas = { x: 600, y: sinosaukstis, plotis: 50, aukstis: ekranoAukstis };
         d12x++ 
         d13x++ 
         d14x++
@@ -291,6 +297,7 @@ function arSusikerta(objektas1, objektas2) {
        if(d23x > ekranoPlotis){d23x = -100}
        if(d14x > ekranoPlotis){d14x = -100}
        if(d24x > ekranoPlotis){d24x = -100}
+       
        if(sx > ekranoPlotis){
         sx = 0 
         sy = ekranoAukstis / 3 
@@ -326,12 +333,34 @@ function arSusikerta(objektas1, objektas2) {
     
     const grd = ctx.createRadialGradient(ekranoPlotis / 2, ekranoAukstis / 2, 0, ekranoPlotis / 2, ekranoAukstis / 2, Math.max(ekranoPlotis, ekranoAukstis));
 
-    grd.addColorStop(1,"rgba(255, 255, 255, 0)");
+    grd.addColorStop(0.41,"rgba(255, 255, 255, 0)");
     grd.addColorStop(1,"rgba(7, 54, 180)");
-    if (arSusikerta(Bapkes1, oda1)) {
-        // Čia galite iškviesti jūsų funkciją, kuri turėtų būti iškviesta, kai objektai susikerta.
-        console.log("Objektai susikerta!");
-        x = 0
+    
+    if(lvl === 0){
+        uzdt.innerText = "Say Hello World";
+        kaip.innerText = `use Print("")`;
+        if(sako == 'Hello World'){lvl++}
+    }
+    else if(lvl === 1){       
+        uzdt.innerText = "Take a coin";
+        kaip.innerText = "use Player.x += `number`";
+        if (arSusikerta(Bapkes1, oda1)) {
+            x = 0
+            lvl++
+            }
+    }
+    else if(lvl === 2){
+        uzdt.innerText = "Take a coin";
+        kaip.innerText = "use Player.x -= `number`";
+        ctx.drawImage(siena, 600, sinosaukstis,50,ekranoAukstis);
+        if (arSusikerta(sienas, oda1)) {
+             x -= 3
+            }
+        if (arSusikerta(Bapkes1, oda1)) {
+            x = 0
+            lvl++
+
+            }
     }
 // Fill with gradient
 ctx.fillStyle = grd;

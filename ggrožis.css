@@ -90,12 +90,20 @@ background-color: rgba(82, 82, 82, 0.7); /* 0.7 - dalinai permatoma spalva */
 padding: 10px;
 border: 3px solid #000;
 }
+#uzd {
+  position: absolute;
+top: 20px; /* Nustatykite norimą vertikalią poziciją */
+left: 85vw; /* Nustatykite norimą horizontalią poziciją */
+background-color: rgba(82, 82, 82, 0.7); /* 0.7 - dalinai permatoma spalva */
+padding: 10px;
+border: 3px solid #000;
+}
 .ac{    
   text-align: center;
     line-height: 1vh;
     color: rgb(228, 227, 227);
    }
-   .act{    
+.act{    
     /* text-align: center; */
       line-height: 1vh;
       color: rgb(228, 227, 227);
