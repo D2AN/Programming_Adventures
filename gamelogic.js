@@ -1,4 +1,4 @@
-// 0 = day 1 = night
+    // 0 = day 1 = night
 window.addEventListener("load", () => {
 
     // ekrano aukstis ir plotis
@@ -10,10 +10,12 @@ window.addEventListener("load", () => {
 
     padidinkCanvas(manoCanvas, ekranoAukstis, ekranoPlotis);
     console.log("mano canvas?", manoCanvas);
-
-    var ctx = manoCanvas.getContext("2d");
-    ctx.beginPath();
-    ctx.stroke();
+ 
+    var ctx = manoCanvas.getContext("2d"); 
+    ctx.font = '20px Arial';
+    ctx.fillStyle = 'black';
+    // ctx.beginPath();
+    // ctx.stroke();
 // var fpsCounter = document.getElementById("fpsCounter");
     var frameCount = 0;
     var fps = 0;
@@ -65,6 +67,12 @@ window.addEventListener("load", () => {
     var backgraund = document.getElementById('backgraund');
     var backgraundnight = document.getElementById('backgraundnight');
     var BapkesElementas  = document.getElementById('Bapkes');
+    var act1  = document.getElementById('act1');
+    var act2  = document.getElementById('act2');
+    var act3  = document.getElementById('act3');
+    var pur  = document.getElementById('pb');
+    var paveiksliukoDiv = document.getElementById('paveiksliukas');
+    var tekstasDiv = document.getElementById('tekstas');
     var BapkesPlotis = BapkesElementas.width;
 var BapkesAukstis = BapkesElementas.height;
 
@@ -103,6 +111,14 @@ function arSusikerta(objektas1, objektas2) {
     var menu = false
     var bapx = 800
     var bapy = ekranoAukstis / 1.3 - kunoaukstis
+    istorija = ['','','']
+    var sneka = false
+    function snekajis() {
+        sneka = true;
+        setTimeout(function() {
+            sneka = false;
+        }, 5000); 
+    }
 
     function tam()
     {
@@ -124,10 +140,20 @@ function arSusikerta(objektas1, objektas2) {
                 case "Enter":
                     var codeplace = document.getElementById("codeplace"); // Gaukite input elementą pagal jo id
                     var tekstas = codeplace.value;
+                    if (tekstas.trim() !== "") {
+                        istorija.unshift(tekstas);
+                    }
+                    
+                    act1.innerText = istorija[0];
+                    act2.innerText = istorija[1];
+                    act3.innerText = istorija[2];
                     var rezultatas1 = tekstas.match(/(Player\.x \+=) (\d+)/);
                     var rezultatas2 = tekstas.match(/(Player\.x \-=) (\d+)/);
-                    if(Inputclear){codeplace.value = "";}
-                    
+                    var rezultatas3k1 = tekstas.match(/Print\('([^']*)'\)/);
+                    var rezultatas3k2 = tekstas.match(/Print\("([^']*)"\)/);
+                    if(Inputclear){
+                        codeplace.value = "";
+                    }
                     xtemp = x
                     xtemp2 = x
                     if (rezultatas1) {
@@ -147,7 +173,8 @@ function arSusikerta(objektas1, objektas2) {
                     // ifelse(rezultatas2){};   
                         
                     iteracija();
-                    } else if(rezultatas2){
+                    } 
+                    else if(rezultatas2){
                         var skaicius = parseInt(rezultatas2[2], 10);
                         function iteracija() {if(xtemp2 < xtemp + skaicius){ 
                             x--;
@@ -155,11 +182,30 @@ function arSusikerta(objektas1, objektas2) {
                             console.log(x); // Čia jūsų veiksmų logika
                             setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
                         }}
-                        iteracija();} else {
+                        iteracija();
+                    }
+                    else if(rezultatas3k1){
+                            console.log("yra" + rezultatas3k1[1])
+                            sako = rezultatas3k1[1]
+                            snekajis()
+                            tekstasDiv.innerText = sako;
+                            burbuloilg = sako.length
+                    }
+                    else if(rezultatas3k2){
+                        console.log("yra" + rezultatas3k2[1])
+                        // tekstasDiv.style.top = y - kunoaukstis + 50+'px';
+                        // tekstasDiv.style.left = x + kunoplotis + 'px';
+                        sako = rezultatas3k2[1]
+                        snekajis()
+                        tekstasDiv.innerText = sako;
+                        burbuloilg = sako.length
+
+                    }
+                    else {
                         console.log("Nepavyko rasti atitikimo");
                     }
                     break;
-                    case "*" && "/":
+                    case "Shift":
                         Inputclear = !Inputclear;
                         break;
                         
@@ -208,8 +254,9 @@ function arSusikerta(objektas1, objektas2) {
         else{
             sy -= ekranoAukstis / sy / 150  
         }
-        ctx.clearRect(0, 0, manoCanvas.width, manoCanvas.height); // Ištriname seną paveikslėlį 
-      
+        // ctx.clearRect(0, 0, manoCanvas.width, manoCanvas.height); // Ištriname seną paveikslėlį 
+        tekstasDiv.style.top = y - kunoaukstis + 50+'px';
+        tekstasDiv.style.left = x + kunoplotis + 'px';
         ctx.drawImage(backgraundl[0],0,0,ekranoPlotis,ekranoAukstis); 
         ctx.globalAlpha = gr;
         ctx.drawImage(backgraundl[1],0,0,ekranoPlotis,ekranoAukstis);
@@ -225,6 +272,12 @@ function arSusikerta(objektas1, objektas2) {
         ctx.drawImage(debesis2, d24x,d2y+40);
         ctx.drawImage(BapkesElementas , bapx, bapy,kunoplotis,kunoplotis);
         ctx.drawImage(odaElementas, x, y,kunoplotis,kunoaukstis);
+        if(sneka){
+        ctx.drawImage(pur, x + kunoplotis / 2, y - kunoaukstis,kunoplotis + burbuloilg * 10,kunoaukstis);
+        }else{
+            sako = ''
+            tekstasDiv.innerText = sako;
+        }
         ctx.drawImage(kelnes, x, y,kunoplotis,kunoaukstis);
         ctx.drawImage(maike, x, y,kunoplotis,kunoaukstis);
         ctx.drawImage(plaukai, x + kunoplotis / 6, y - kunoaukstis/3 ,kunoplotis,kunoaukstis);

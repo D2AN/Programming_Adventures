@@ -61,3 +61,44 @@
     visibility: hidden;
     border-style: solid;
 }  
+body {
+  margin: 0;
+  position: relative;
+  /* background-image: url(backgraund.png);
+  background-size: cover;  /*Užima visą ekrano plotį ir aukštį */
+   /* background-attachment: fixed; Fono paveiksliukas lieka pritvirtintas net slenkant puslapiu */ 
+}
+
+#ekranas {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  
+}
+#codeplace{
+  
+  position: fixed;
+  right: 50vw;
+  border-width: 0px;
+  
+}
+#ahis {
+  position: absolute;
+top: 20px; /* Nustatykite norimą vertikalią poziciją */
+left: 20px; /* Nustatykite norimą horizontalią poziciją */
+background-color: rgba(82, 82, 82, 0.7); /* 0.7 - dalinai permatoma spalva */
+padding: 10px;
+border: 3px solid #000;
+}
+.ac{    
+  text-align: center;
+    line-height: 1vh;
+    color: rgb(228, 227, 227);
+   }
+   .act{    
+    /* text-align: center; */
+      line-height: 1vh;
+      color: rgb(228, 227, 227);
+     }
+  
+
