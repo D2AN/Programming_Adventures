@@ -115,9 +115,25 @@ window.addEventListener("load", () => {
     var gr = 0;
     var menu = false;
     var bapx = 800;
-    var bapy = ekranoAukstis / 1.3 - kunoaukstis;
-    istorija = ["", "", ""];
+    var bapy = ekranoAukstis / 1.3 - kunoaukstis; 
+    saugojimoTekstas = localStorage.getItem('saugojimoRaktas');
 
+    // Konvertuojame tekstą į masivą
+    if(saugojimoTekstas == null){
+        istorija = ["", "", ""];
+    }else{
+    
+    istorija = JSON.parse(saugojimoTekstas);
+}
+    var masivoTekstas = JSON.stringify(istorija);
+
+    // Saugome tekstą į localStorage
+    localStorage.setItem('saugojimoRaktas', masivoTekstas);
+  
+    
+    act1.innerText = istorija[0];
+    act2.innerText = istorija[1];
+    act3.innerText = istorija[2];
     var sneka = false;
     var sinosaukstis = ekranoAukstis / 3;
     kintamieji = {};
@@ -178,6 +194,10 @@ window.addEventListener("load", () => {
 
             case "Enter":
                 // codeplace = document.getElementById("codeplace");
+                var masivoTekstas = JSON.stringify(istorija);
+
+                // Saugome tekstą į localStorage
+                localStorage.setItem('saugojimoRaktas', masivoTekstas);
                 isat = -1
                 var tekstas = codeplace.value;
                 if (tekstas.trim() !== "") {
@@ -467,6 +487,7 @@ window.addEventListener("load", () => {
         ctx.fillRect(0, 0, ekranoPlotis, ekranoAukstis);
         requestAnimationFrame(kartojimas);
     }
+    
     kartojimas();
 });
 
