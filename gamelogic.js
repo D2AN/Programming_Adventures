@@ -17,7 +17,7 @@ window.addEventListener("load", () => {
     // ctx.stroke();
     // var fpsCounter = document.getElementById("fpsCounter");
     var frameCount = 0;
-    var fps = 0;
+    fps = 0;
 
     function updateFPS() {
         // console.log(fps + "fps");
@@ -116,6 +116,7 @@ window.addEventListener("load", () => {
     var menu = false;
     var bapx = 800;
     var bapy = ekranoAukstis / 1.3 - kunoaukstis; 
+    grds = 1
     saugojimoTekstas = localStorage.getItem('saugojimoRaktas');
 
     // Konvertuojame tekstą į masivą
@@ -126,7 +127,9 @@ window.addEventListener("load", () => {
     istorija = JSON.parse(saugojimoTekstas);
 }
     var masivoTekstas = JSON.stringify(istorija);
-
+    function grdats(){
+        grds = 1
+    }
     // Saugome tekstą į localStorage
     localStorage.setItem('saugojimoRaktas', masivoTekstas);
   
@@ -194,10 +197,7 @@ window.addEventListener("load", () => {
 
             case "Enter":
                 // codeplace = document.getElementById("codeplace");
-                var masivoTekstas = JSON.stringify(istorija);
-
-                // Saugome tekstą į localStorage
-                localStorage.setItem('saugojimoRaktas', masivoTekstas);
+                
                 isat = -1
                 var tekstas = codeplace.value;
                 if (tekstas.trim() !== "") {
@@ -216,11 +216,13 @@ window.addEventListener("load", () => {
                 // var rezultatas4k1 = tekstas.match(/Num (\w+) = (\w+)/);
                 var rezultatas5 = tekstas.match(/Player\.x \+= (\w+)/);
                 var rezultatas6 = tekstas.match(/Player\.x \-= (\w+)/);
+                var func1 = tekstas.match(/Clear\.history/);
                 if (Inputclear) {
                     codeplace.value = "";
                 }
                 xtemp = x;
                 xtemp2 = x;
+                
                 if (rezultatas1) {
                     var skaicius = parseInt(rezultatas1[2], 10);
 
@@ -294,10 +296,21 @@ window.addEventListener("load", () => {
                         }
                     }
                     iteracija();
+                }else if(func1){
+                    istorija = ['','','']
+                    act1.innerText = istorija[0];
+                    act2.innerText = istorija[1];
+                    act3.innerText = istorija[2];
                 }
                 else {
                     console.log("Nepavyko rasti atitikimo");
+                    grds = 0
+                    setTimeout(grdats, 100)
                 }
+                var masivoTekstas = JSON.stringify(istorija);
+
+                // Saugome tekstą į localStorage
+                localStorage.setItem('saugojimoRaktas', masivoTekstas);
                 break;
             // case "Shift":
             //     Inputclear = !Inputclear;
@@ -454,8 +467,9 @@ window.addEventListener("load", () => {
             Math.max(ekranoPlotis, ekranoAukstis)
         );
 
-        grd.addColorStop(0.41, "rgba(255, 255, 255, 0)");
-        grd.addColorStop(1, "rgba(7, 54, 180)");
+        grd.addColorStop(grds, "rgba(255, 255, 255, 0)");
+        grd.addColorStop(1, "rgba(255, 0, 0)");
+
 
         if (lvl === 0) {
             uzdt.innerText = "Say Hello World";
