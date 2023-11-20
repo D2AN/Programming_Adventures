@@ -4,9 +4,38 @@ window.addEventListener("load", () => {
     const ekranas = document.getElementById("ekranas");
     const ekranoAukstis = ekranas.clientHeight;
     const ekranoPlotis = ekranas.clientWidth;
-
+    
     let manoCanvas = document.getElementById("canvas");
+    function handleWheelEvent(event) {
+        // Paimame deltaY, kuris nurodo ratuko posūkį (skirtumą tarp ankstesnio ir dabartinio rato pozicijos)
+        const delta = event.deltaY;
+  
+        // Tikriname, ar ratuko posūkis buvo teigiamas (aukštyn) ar neigiamas (žemyn)
+        if (delta < 0) {
+            if (vieta < istorija.length - 3) {
+                if(vieta >= 0){
+                    vieta--
+                }
+                if(vieta >= 0){
+                    act1.innerText = istorija[vieta];
+                    act2.innerText = istorija[vieta + 1];
+                    act3.innerText = istorija[vieta + 2];
+                }
+            }
+          
 
+        } else if (vieta < istorija.length - 4) {
+            vieta++;
+            if(vieta >= 0){
+                act1.innerText = istorija[vieta];
+                act2.innerText = istorija[vieta + 1];
+                act3.innerText = istorija[vieta + 2];
+            }
+            // console.log(istorija[isat]);
+            
+        }
+        }
+      
     padidinkCanvas(manoCanvas, ekranoAukstis, ekranoPlotis);
     console.log("mano canvas?", manoCanvas);
 
@@ -29,7 +58,7 @@ window.addEventListener("load", () => {
         frameCount = 0;
     }
 
-    // Pradiniuose nustatymuose mes rodydami FPS nustatomas 0
+    // Pradiniuose nustatymuose mes r,odydami FPS nustatomas 0
     updateFPS();
     function calculateFPS() {
         frameCount++;
@@ -117,6 +146,7 @@ window.addEventListener("load", () => {
     var bapx = 800;
     var bapy = ekranoAukstis / 1.3 - kunoaukstis; 
     grds = 1
+    vieta = 0
     saugojimoTekstas = localStorage.getItem('saugojimoRaktas');
 
     // Konvertuojame tekstą į masivą
@@ -133,10 +163,10 @@ window.addEventListener("load", () => {
     // Saugome tekstą į localStorage
     localStorage.setItem('saugojimoRaktas', masivoTekstas);
   
-    
-    act1.innerText = istorija[0];
-    act2.innerText = istorija[1];
-    act3.innerText = istorija[2];
+    document.addEventListener("wheel", handleWheelEvent);
+    act1.innerText = istorija[vieta];
+    act2.innerText = istorija[vieta + 1];
+    act3.innerText = istorija[vieta + 2];
     var sneka = false;
     var sinosaukstis = ekranoAukstis / 3;
     kintamieji = {};
@@ -213,7 +243,8 @@ window.addEventListener("load", () => {
                 var rezultatas3k1 = tekstas.match(/Print\('([^']*)'\)/);
                 var rezultatas3k2 = tekstas.match(/Print\("([^']*)"\)/);
                 var rezultatas4 = tekstas.match(/Num (\w+) = (\d+)/);
-                // var rezultatas4k1 = tekstas.match(/Num (\w+) = (\w+)/);
+                var rezultatas4k1 = tekstas.match(/Str (\w+) = '([^']*)'/);
+                var rezultatas4k2 = tekstas.match(/Str (\w+) = "([^']*)"/);
                 var rezultatas5 = tekstas.match(/Player\.x \+= (\w+)/);
                 var rezultatas6 = tekstas.match(/Player\.x \-= (\w+)/);
                 var func1 = tekstas.match(/Clear\.history/);
@@ -230,7 +261,7 @@ window.addEventListener("load", () => {
                         if (xtemp2 < xtemp + skaicius) {
                             x++;
                             xtemp2++;
-                            console.log(x); // Čia jūsų veiksmų logika
+                            // console.log(x); // Čia jūsų veiksmų logika
                             setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
                         }
                     }
@@ -244,7 +275,7 @@ window.addEventListener("load", () => {
                         if (xtemp2 < xtemp + skaicius) {
                             x--;
                             xtemp2++;
-                            console.log(x); // Čia jūsų veiksmų logika
+                            // console.log(x); // Čia jūsų veiksmų logika
                             setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
                         }
                     }
@@ -277,7 +308,7 @@ window.addEventListener("load", () => {
                         if (xtemp2 < xtemp + skaicius) {
                             x++;
                             xtemp2++;
-                            console.log(x); // Čia jūsų veiksmų logika
+                            // console.log(x); // Čia jūsų veiksmų logika
                             setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
                         }
                     }
@@ -291,7 +322,7 @@ window.addEventListener("load", () => {
                         if (xtemp2 < xtemp + skaicius) {
                             x--;
                             xtemp2++;
-                            console.log(x); // Čia jūsų veiksmų logika
+                            // console.log(x); // Čia jūsų veiksmų logika
                             setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
                         }
                     }
@@ -301,6 +332,17 @@ window.addEventListener("load", () => {
                     act1.innerText = istorija[0];
                     act2.innerText = istorija[1];
                     act3.innerText = istorija[2];
+                }else if(rezultatas4k1){
+                    console.log(rezultatas4k1[0])
+                    console.log(rezultatas4k1[1])
+                    console.log(rezultatas4k1[2])
+
+                }
+                else if(rezultatas4k2){
+                    console.log(rezultatas4k2[0])
+                    console.log(rezultatas4k2[1])
+                    console.log(rezultatas4k2[2])
+
                 }
                 else {
                     console.log("Nepavyko rasti atitikimo");
@@ -345,21 +387,24 @@ window.addEventListener("load", () => {
             plotis: 50,
             aukstis: ekranoAukstis,
         };
-        d12x++;
-        d13x++;
-        d14x++;
-        d1x++;
-        d2x += 2;
-        d22x += 2;
-        d23x += 2;
-        d24x += 2;
-
-        sx += 0.2;
+        d12x+= 0.2;
+        d13x+= 0.2;
+        d14x+= 0.2;
+        d1x += 0.2;
+        d2x  += 0.5;
+        d22x += 0.5;
+        d23x += 0.5;
+        d24x += 0.5;
+for (let i = 0; i < 1; i++) {
+    
+     sx += 0.1;
         if (sx > ekranoPlotis / 2) {
-            sy += ekranoAukstis / sy / 150;
+            sy += ekranoAukstis / sy / 450;
         } else {
-            sy -= ekranoAukstis / sy / 150;
+            sy -= ekranoAukstis / sy / 450;
         }
+}
+       
         // ctx.clearRect(0, 0, manoCanvas.width, manoCanvas.height); // Ištriname seną paveikslėlį
         tekstasDiv.style.top = y - kunoaukstis + 50 + "px";
         tekstasDiv.style.left = x + kunoplotis + "px";
