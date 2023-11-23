@@ -1,0 +1,2 @@
+//Komandos
+Player.x += `number` Player.x -= `number` // judeti

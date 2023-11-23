@@ -47,9 +47,10 @@ window.addEventListener("load", () => {
     // var fpsCounter = document.getElementById("fpsCounter");
     var frameCount = 0;
     fps = 0;
-
+    fpsc = false
     function updateFPS() {
-        // console.log(fps + "fps");
+        if(fpsc)
+        {console.log(fps + "fps");}
 
         // Nustatome FPS skaičių į pradinę reikšmę
         fps = frameCount;
@@ -69,20 +70,6 @@ window.addEventListener("load", () => {
     calculateFPS();
     setInterval(updateFPS, 1000);
 
-    // function circle(x, y, r, c) {
-    //     ctx.beginPath();
-    //     var rad = ctx.createRadialGradient(x, y, 1, x, y, r);
-    //     rad.addColorStop(0, c);
-    //     rad.addColorStop(1, 'transparent');
-    //     ctx.fillStyle = rad;
-    //     ctx.arc(x, y, r, 0, Math.PI*2, false);
-    //     ctx.fill();
-    // }
-
-    // ctx.fillRect(0, 0, 256, 256);
-
-    // circle(128, 128, 200, 'red');
-    // circle(64, 64, 30,    'green');
     var kelnes = document.getElementById("kelnes");
     var maike = document.getElementById("maike");
     var odaElementas = document.getElementById("oda");
@@ -106,7 +93,16 @@ window.addEventListener("load", () => {
     var codeplace = document.getElementById("codeplace");
     var BapkesPlotis = BapkesElementas.width;
     var BapkesAukstis = BapkesElementas.height;
+    var kvplotis = ekranoPlotis / 10
+    var kvaukstis = ekranoAukstis / 10
+    lvl = localStorage.getItem('lvl');
+    if(lvl = 'undefined'){
+        lvl = 0
+    localStorage.setItem('lvl', lvl);
+    }
 
+    lvl = localStorage.getItem('lvl');
+    lvl = lvl -0
     var odaPlotis = odaElementas.width;
     var odaAukstis = odaElementas.height;
 
@@ -140,7 +136,11 @@ window.addEventListener("load", () => {
     var sy = ekranoAukstis / 3;
     kurisdk = 0;
     Inputclear = true;
-    var lvl = 0;
+    localStorage.setItem('vardas', 'Jonas');
+    stok = false
+    
+// Gauname reikšmę iš localStorage
+    var vardas = localStorage.getItem('vardas');
     var gr = 0;
     var menu = false;
     var bapx = 800;
@@ -162,7 +162,21 @@ window.addEventListener("load", () => {
     }
     // Saugome tekstą į localStorage
     localStorage.setItem('saugojimoRaktas', masivoTekstas);
-  
+    saugojimoTekstas = localStorage.getItem('saugojimoRaktas');
+
+    // Konvertuojame tekstą į masivą
+    if(saugojimoTekstas == null){
+        istorija = ["", "", ""];
+    }else{
+    
+    istorija = JSON.parse(saugojimoTekstas);
+}
+    var masivoTekstas = JSON.stringify(istorija);
+    function grdats(){
+        grds = 1
+    }
+    // Saugome tekstą į localStorage
+    localStorage.setItem('saugojimoRaktas', masivoTekstas);
     document.addEventListener("wheel", handleWheelEvent);
     act1.innerText = istorija[vieta];
     act2.innerText = istorija[vieta + 1];
@@ -188,6 +202,7 @@ window.addEventListener("load", () => {
             gr -= 0.01;
         }
     }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     document.addEventListener("keydown", (event) => {
         switch (event.key) {
             // case "Escape":
@@ -197,12 +212,20 @@ window.addEventListener("load", () => {
             //         menu = false}
             case "ArrowUp":
                 
+                // if (vieta < istorija.length - 4) {
+                //     vieta++;
+                //     if(vieta >= 0){
+                //         act1.innerText = istorija[vieta];
+                //         act2.innerText = istorija[vieta + 1];
+                //         act3.innerText = istorija[vieta + 2];
+                //     }}
+                    
+                
                 if (isat < istorija.length - 4) {
                     isat++;
                     if(isat >= 0){
                         codeplace.value = istorija[isat];
                     }
-                    // console.log(istorija[isat]);
                     
                 }
                 
@@ -221,8 +244,6 @@ window.addEventListener("load", () => {
                     else{codeplace.value = ''}
                     
                 }
-                
-                
                 break;    
 
             case "Enter":
@@ -248,36 +269,42 @@ window.addEventListener("load", () => {
                 var rezultatas5 = tekstas.match(/Player\.x \+= (\w+)/);
                 var rezultatas6 = tekstas.match(/Player\.x \-= (\w+)/);
                 var func1 = tekstas.match(/Clear\.history/);
+                var func2 = tekstas.match(/Stop/);
                 if (Inputclear) {
                     codeplace.value = "";
                 }
                 xtemp = x;
                 xtemp2 = x;
-                
                 if (rezultatas1) {
+                    stok = false
                     var skaicius = parseInt(rezultatas1[2], 10);
 
                     function iteracija() {
+                        if(!stok){
                         if (xtemp2 < xtemp + skaicius) {
                             x++;
                             xtemp2++;
                             // console.log(x); // Čia jūsų veiksmų logika
                             setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
-                        }
+                        }}
                     }
 
                     // ifelse(rezultatas2){};
 
                     iteracija();
-                } else if (rezultatas2) {
+                } 
+                else if (rezultatas2) {
+                    stok = false
+
                     var skaicius = parseInt(rezultatas2[2], 10);
                     function iteracija() {
+                        if(!stok){
                         if (xtemp2 < xtemp + skaicius) {
                             x--;
                             xtemp2++;
                             // console.log(x); // Čia jūsų veiksmų logika
                             setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
-                        }
+                        }}
                     }
                     iteracija();
                 } else if (rezultatas3k1) {
@@ -302,30 +329,36 @@ window.addEventListener("load", () => {
                     
                     kintamieji[pavadinimas] = reiksme
                 } else if(rezultatas5){
+                    stok = false
+
                     var skaicius = parseInt(kintamieji[rezultatas5[1]], 10);
 
                     function iteracija() {
+                        if(!stok){
                         if (xtemp2 < xtemp + skaicius) {
                             x++;
                             xtemp2++;
                             // console.log(x); // Čia jūsų veiksmų logika
                             setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
                         }
-                    }
+                    }}
 
                     // ifelse(rezultatas2){};
 
                     iteracija();
                 } else if(rezultatas6){
+                    stok = false
+
                     var skaicius = parseInt(kintamieji[rezultatas6[1]], 10);
                     function iteracija() {
+                        if(!stok){
                         if (xtemp2 < xtemp + skaicius) {
                             x--;
                             xtemp2++;
                             // console.log(x); // Čia jūsų veiksmų logika
                             setTimeout(iteracija, 10); // Kviečiame funkciją po 1000 ms (1 sekundės)
                         }
-                    }
+                    }}
                     iteracija();
                 }else if(func1){
                     istorija = ['','','']
@@ -343,6 +376,9 @@ window.addEventListener("load", () => {
                     console.log(rezultatas4k2[1])
                     console.log(rezultatas4k2[2])
 
+                }
+                else if(func2){
+                    stok = true
                 }
                 else {
                     console.log("Nepavyko rasti atitikimo");
@@ -376,9 +412,10 @@ window.addEventListener("load", () => {
                 break;
         }
     });
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //ciklas
     function kartojimas() {
+        
         Bapkes1 = { x: bapx, y: bapy, plotis: kunoplotis, aukstis: kunoplotis };
         oda1 = { x: x, y: y, plotis: kunoplotis, aukstis: kunoaukstis };
         var sienas = {
@@ -387,6 +424,7 @@ window.addEventListener("load", () => {
             plotis: 50,
             aukstis: ekranoAukstis,
         };
+        //////////////
         d12x+= 0.2;
         d13x+= 0.2;
         d14x+= 0.2;
@@ -394,20 +432,22 @@ window.addEventListener("load", () => {
         d2x  += 0.5;
         d22x += 0.5;
         d23x += 0.5;
-        d24x += 0.5;
-for (let i = 0; i < 1; i++) {
-    
-     sx += 0.1;
-        if (sx > ekranoPlotis / 2) {
-            sy += ekranoAukstis / sy / 450;
-        } else {
-            sy -= ekranoAukstis / sy / 450;
-        }
-}
+        d24x += 0.5;//////////////
+
+        for (let i = 0; i < 1; i++) {
+        sx += 0.1;
+            if (sx > ekranoPlotis / 2) {
+                sy += ekranoAukstis / sy / 450;
+            } else {
+                sy -= ekranoAukstis / sy / 450;
+            }
+            }
        
         // ctx.clearRect(0, 0, manoCanvas.width, manoCanvas.height); // Ištriname seną paveikslėlį
+        ////////////////////////////////////////////////////////////
         tekstasDiv.style.top = y - kunoaukstis + 50 + "px";
         tekstasDiv.style.left = x + kunoplotis + "px";
+        ctx.clearRect(0, 0, ekranoPlotis, ekranoAukstis);
         ctx.drawImage(backgraundl[0], 0, 0, ekranoPlotis, ekranoAukstis);
         ctx.globalAlpha = gr;
         ctx.drawImage(backgraundl[1], 0, 0, ekranoPlotis, ekranoAukstis);
@@ -423,6 +463,17 @@ for (let i = 0; i < 1; i++) {
         ctx.drawImage(debesis2, d24x, d2y + 40);
         ctx.drawImage(BapkesElementas, bapx, bapy, kunoplotis, kunoplotis);
         ctx.drawImage(odaElementas, x, y, kunoplotis, kunoaukstis);
+        ctx.beginPath();
+        ctx.fillStyle = 'white';
+        if(kvplotis > 0){
+        kvplotis--
+        kvaukstis--}
+        
+        
+            ctx.fillRect(ekranoPlotis / 2 - kvplotis, 0 , kvplotis * 2, kvaukstis);   
+            // ctx.fillStyle = grd;
+        ctx.stroke();
+        /////////////////////////////////////////////////////////////////
         if (sneka) {
             ctx.drawImage(
                 pur,
@@ -482,8 +533,10 @@ for (let i = 0; i < 1; i++) {
             sy = ekranoAukstis / 3;
             if (kurisdk === 0) {
                 kurisdk = 1;
+           
             } else {
                 kurisdk = 0;
+                
             }
         }
         if (sx > ekranoPlotis * 0.9 && kurisdk === 0) {
@@ -547,8 +600,10 @@ for (let i = 0; i < 1; i++) {
         requestAnimationFrame(kartojimas);
     }
     
+    localStorage.setItem('lvl', lvl);
     kartojimas();
-});
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 //padidinu canvas
 function padidinkCanvas(canvasElementas, aukstis, plotis) {
@@ -583,4 +638,4 @@ function disableBodyScroll({ savePosition = false } = {}) {
     } else {
         window.addEventListener("load", () => disableBodyScroll({ savePosition }));
     }
-}
+}});

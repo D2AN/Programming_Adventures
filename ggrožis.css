@@ -1,4 +1,4 @@
-.switch {
+/* .switch {
     position: relative;
     display: inline-block;
     width: 60px;
@@ -50,17 +50,17 @@
   }
   
   /* Rounded sliders */
-  .slider.round {
+  /* .slider.round {
     border-radius: 34px;
   }
   
   .slider.round:before {
     border-radius: 50%;
-  }
-  #setings {
+  }*/
+  /* #setings {
     visibility: hidden;
     border-style: solid;
-}  
+}   */
 body {
   margin: 0;
   position: relative;
@@ -73,12 +73,16 @@ body {
   position: fixed;
   height: 100vh;
   width: 100vw;
-  
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+
 }
 #codeplace{
   
   position: fixed;
-  right: 50vw;
+  place-items: center;
+
   border-width: 0px;
   
 }
@@ -108,5 +112,5 @@ border: 3px solid #000;
       line-height: 1vh;
       color: rgb(228, 227, 227);
      }
-  
+     
 
