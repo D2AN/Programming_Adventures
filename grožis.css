@@ -7,8 +7,9 @@ body {
     background-image: url(menu_1.png);
     background-size: cover; /* Užima visą ekrano plotį ir aukštį */
     background-attachment: fixed; /* Fono paveiksliukas lieka pritvirtintas net slenkant puslapiu */
-  
+  /* cursor: url('pelyte1.png'), auto; */
 }
+
 
 .mainbox {
     text-align: center;

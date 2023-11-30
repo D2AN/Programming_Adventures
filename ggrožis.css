@@ -67,6 +67,7 @@ body {
   /* background-image: url(backgraund.png);
   background-size: cover;  /*Užima visą ekrano plotį ir aukštį */
    /* background-attachment: fixed; Fono paveiksliukas lieka pritvirtintas net slenkant puslapiu */ 
+   /* cursor: none; */
 }
 
 #ekranas {
@@ -84,7 +85,7 @@ body {
   place-items: center;
 
   border-width: 0px;
-  
+  top: 0;
 }
 #ahis {
   position: absolute;
@@ -112,5 +113,8 @@ border: 3px solid #000;
       line-height: 1vh;
       color: rgb(228, 227, 227);
      }
-     
+      /* body {
+      cursor: url('pelyte1.png'),auto; 
+}
+       */
 

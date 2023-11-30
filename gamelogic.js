@@ -69,7 +69,7 @@ window.addEventListener("load", () => {
     // Pradėkite skaičiuoti FPS
     calculateFPS();
     setInterval(updateFPS, 1000);
-
+    var body = document.body;
     var kelnes = document.getElementById("kelnes");
     var maike = document.getElementById("maike");
     var odaElementas = document.getElementById("oda");
@@ -91,6 +91,7 @@ window.addEventListener("load", () => {
     var kaip = document.getElementById("kaip");
     var siena = document.getElementById("Siena");
     var codeplace = document.getElementById("codeplace");
+    var pele = document.getElementById('mouse')
     var BapkesPlotis = BapkesElementas.width;
     var BapkesAukstis = BapkesElementas.height;
     var kvplotis = ekranoPlotis / 10
@@ -133,6 +134,7 @@ window.addEventListener("load", () => {
     var d1y = 0;
     var d1x = 811;
     var sx = 0;
+    var mouseX, mouseY = -1
     var sy = ekranoAukstis / 3;
     kurisdk = 0;
     Inputclear = true;
@@ -202,15 +204,32 @@ window.addEventListener("load", () => {
             gr -= 0.01;
         }
     }
+    //  body.addEventListener('mousemove', function(event) {
+    //     // Gauname pelės koordinates
+    //     var mouseX = event.clientX;
+    //     var mouseY = event.clientY;
+    //     console.clear();
+    //     console.log('Pelės X koordinatė:', mouseX);
+    //     console.log('Pelės Y koordinatė:', mouseY);})
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     document.addEventListener("keydown", (event) => {
-        switch (event.key) {
-            // case "Escape":
-            //     if(!menu){document.getElementById('setings').style.visibility = 'visible';
-            // menu = true}
-            //     else{document.getElementById('setings').style.visibility = 'hidden';
-            //         menu = false}
-            case "ArrowUp":
+        document.getElementById("codeplace").focus();
+        if (event.key === "Escape") {
+            // Nukreipiame į index.html
+            window.location.href = "index.html";
+        }
+        if (event.key === "ArrowUp" &&  event.ctrlKey) { 
+            if (vieta < istorija.length - 3) {
+            if(vieta >= 0){
+                vieta--
+            }
+            if(vieta >= 0){
+                act1.innerText = istorija[vieta];
+                act2.innerText = istorija[vieta + 1];
+                act3.innerText = istorija[vieta + 2];
+            }
+        }}
+        else if (event.key === "ArrowUp") {
                 
                 // if (vieta < istorija.length - 4) {
                 //     vieta++;
@@ -229,8 +248,21 @@ window.addEventListener("load", () => {
                     
                 }
                 
-                break;
-            case "ArrowDown":
+            }
+        if (event.key === "ArrowDown" &&  event.ctrlKey) { 
+            if (vieta < istorija.length - 4) {
+                vieta++;
+                if(vieta >= 0){
+                    act1.innerText = istorija[vieta];
+                    act2.innerText = istorija[vieta + 1];
+                    act3.innerText = istorija[vieta + 2];
+                }
+                // console.log(istorija[isat]);
+                
+            }
+            // console.log(istorija[isat]);
+        }
+        else if (event.key === "ArrowDown") {
                 
                 if (isat < istorija.length - 3) {
                     if(isat >= 0){
@@ -244,8 +276,36 @@ window.addEventListener("load", () => {
                     else{codeplace.value = ''}
                     
                 }
-                break;    
+            }
+        switch (event.key) {
+            // case "Escape":
+            //     if(!menu){document.getElementById('setings').style.visibility = 'visible';
+            // menu = true}
+            //     else{document.getElementById('setings').style.visibility = 'hidden';
+            //         menu = false}
+            
+                  
 
+                // case "(":
+                    
+                    
+                //     setTimeout(function() {
+                //         var tekstas = codeplace.value;
+                //         codeplace.value = tekstas + ")";
+                //     }, 10);
+                    
+
+                //     break;  
+                // case "'":
+                    
+                    
+                //     setTimeout(function() {
+                //         var tekstas = codeplace.value;
+                //         codeplace.value = tekstas + "'";
+                //     }, 10);
+                    
+
+                //     break;  
             case "Enter":
                 // codeplace = document.getElementById("codeplace");
                 
@@ -270,6 +330,7 @@ window.addEventListener("load", () => {
                 var rezultatas6 = tekstas.match(/Player\.x \-= (\w+)/);
                 var func1 = tekstas.match(/Clear\.history/);
                 var func2 = tekstas.match(/Stop/);
+                var esteregg1 = tekstas.match(/DVD/);
                 if (Inputclear) {
                     codeplace.value = "";
                 }
@@ -380,6 +441,36 @@ window.addEventListener("load", () => {
                 else if(func2){
                     stok = true
                 }
+                else if(esteregg1){
+                    var deltaX = 5; // Kiek pikselių kiekviename žingsnyje juda įvesties laukas horizontaliai
+                    var deltaY = 5; // Kiek pikselių kiekviename žingsnyje juda įvesties laukas vertikaliai
+
+                    function animateDVDLogo() {
+                        xd = 0;
+                        yd = 0;
+                        
+                    
+                        setInterval(function() {
+                            xd += deltaX;
+                            yd += deltaY;
+                        
+                            // Atvaizduojame naujas koordinates
+                            codeplace.style.left = xd + 'px';
+                            codeplace.style.top = yd + 'px';
+                        
+                            // Tikriname, ar įvesties laukas nepasiekė kraštų, ir keičiame kryptį
+                            if (xd + codeplace.offsetWidth > ekranoPlotis || xd < 0) {
+                                deltaX = -deltaX;
+                            }
+                            if (yd + codeplace.offsetHeight > ekranoAukstis || yd < 0) {
+                                deltaY = -deltaY;
+            }
+        }, 16); // 60 kadrų per sekundę (1000 ms / 60 ≈ 16.67 ms)
+    }
+
+    // Pradedame animaciją
+    animateDVDLogo();
+                }
                 else {
                     console.log("Nepavyko rasti atitikimo");
                     grds = 0
@@ -410,12 +501,13 @@ window.addEventListener("load", () => {
 
             default:
                 break;
+                
         }
-    });
+    
+    })
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //ciklas
     function kartojimas() {
-        
         Bapkes1 = { x: bapx, y: bapy, plotis: kunoplotis, aukstis: kunoplotis };
         oda1 = { x: x, y: y, plotis: kunoplotis, aukstis: kunoaukstis };
         var sienas = {
@@ -452,6 +544,7 @@ window.addEventListener("load", () => {
         ctx.globalAlpha = gr;
         ctx.drawImage(backgraundl[1], 0, 0, ekranoPlotis, ekranoAukstis);
         ctx.globalAlpha = 1;
+        
         ctx.drawImage(dankunas[kurisdk], sx, sy, 100, 100);
         ctx.drawImage(debesis1, d1x, d1y + 69);
         ctx.drawImage(debesis1, d12x, d1y + 72);
@@ -463,6 +556,7 @@ window.addEventListener("load", () => {
         ctx.drawImage(debesis2, d24x, d2y + 40);
         ctx.drawImage(BapkesElementas, bapx, bapy, kunoplotis, kunoplotis);
         ctx.drawImage(odaElementas, x, y, kunoplotis, kunoaukstis);
+        
         ctx.beginPath();
         ctx.fillStyle = 'white';
         if(kvplotis > 0){
@@ -472,6 +566,7 @@ window.addEventListener("load", () => {
         
             ctx.fillRect(ekranoPlotis / 2 - kvplotis, 0 , kvplotis * 2, kvaukstis);   
             // ctx.fillStyle = grd;
+        
         ctx.stroke();
         /////////////////////////////////////////////////////////////////
         if (sneka) {
