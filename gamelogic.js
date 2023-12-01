@@ -442,11 +442,11 @@ window.addEventListener("load", () => {
                     stok = true
                 }
                 else if(esteregg1){
-                    var deltaX = 5; // Kiek pikselių kiekviename žingsnyje juda įvesties laukas horizontaliai
-                    var deltaY = 5; // Kiek pikselių kiekviename žingsnyje juda įvesties laukas vertikaliai
+                    var deltaX = 5; 
+                    var deltaY = 5;
 
-                    function animateDVDLogo() {
-                        xd = 0;
+                    function esteregg1f() {
+                        xd = ekranoPlotis / 2;
                         yd = 0;
                         
                     
@@ -454,22 +454,20 @@ window.addEventListener("load", () => {
                             xd += deltaX;
                             yd += deltaY;
                         
-                            // Atvaizduojame naujas koordinates
+                            
                             codeplace.style.left = xd + 'px';
                             codeplace.style.top = yd + 'px';
                         
-                            // Tikriname, ar įvesties laukas nepasiekė kraštų, ir keičiame kryptį
+                          
                             if (xd + codeplace.offsetWidth > ekranoPlotis || xd < 0) {
                                 deltaX = -deltaX;
                             }
                             if (yd + codeplace.offsetHeight > ekranoAukstis || yd < 0) {
                                 deltaY = -deltaY;
             }
-        }, 16); // 60 kadrų per sekundę (1000 ms / 60 ≈ 16.67 ms)
+        }, 16); 
     }
-
-    // Pradedame animaciją
-    animateDVDLogo();
+    esteregg1f();
                 }
                 else {
                     console.log("Nepavyko rasti atitikimo");
@@ -720,6 +718,7 @@ function padidinkCanvas(canvasElementas, aukstis, plotis) {
     } else {
         //window.addEventListener('load', enableBodyScroll);
     }
+
 }
 
 function disableBodyScroll({ savePosition = false } = {}) {
