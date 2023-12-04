@@ -65,7 +65,7 @@ window.addEventListener("load", () => {
         frameCount++;
         requestAnimationFrame(calculateFPS);
     }
-
+    
     // Pradėkite skaičiuoti FPS
     calculateFPS();
     setInterval(updateFPS, 1000);
@@ -453,17 +453,27 @@ window.addEventListener("load", () => {
                         setInterval(function() {
                             xd += deltaX;
                             yd += deltaY;
-                        
-                            
+                            r = Math.floor(Math.random() * 256);
+                            g = Math.floor(Math.random() * 256);
+                            b = Math.floor(Math.random() * 256);
                             codeplace.style.left = xd + 'px';
                             codeplace.style.top = yd + 'px';
                         
                           
                             if (xd + codeplace.offsetWidth > ekranoPlotis || xd < 0) {
                                 deltaX = -deltaX;
+                                codeplace.style.backgroundColor = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                                r = Math.floor(Math.random() * 256);
+                                g = Math.floor(Math.random() * 256);
+                                b = Math.floor(Math.random() * 256);
                             }
+
                             if (yd + codeplace.offsetHeight > ekranoAukstis || yd < 0) {
                                 deltaY = -deltaY;
+                                codeplace.style.backgroundColor = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                                r = Math.floor(Math.random() * 256);
+                                g = Math.floor(Math.random() * 256);
+                                b = Math.floor(Math.random() * 256);
             }
         }, 16); 
     }
