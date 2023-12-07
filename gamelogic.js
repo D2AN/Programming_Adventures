@@ -59,6 +59,7 @@ window.addEventListener("load", () => {
     var frameCount = 0;
     fps = 0;
     fpsc = false
+    lai = 0
     function updateFPS() {
         if(fpsc)
         {console.log(fps + "fps");}
@@ -86,7 +87,10 @@ window.addEventListener("load", () => {
    
     // var odaElementas = document.getElementById("oda");
     // var plaukai = document.getElementById("plaukai");
-    var veidas = document.getElementById("veidas");
+    var kunas = document.getElementById("kunas");   
+    var kunas1 = document.getElementById("kunas1");
+    var kunas2 = document.getElementById("kunas2");
+    var kunas3 = document.getElementById("kunas3");
     var debesis1 = document.getElementById("debesis1");
     var saule = document.getElementById("saule");
     var menulis = document.getElementById("menulist");
@@ -108,6 +112,8 @@ window.addEventListener("load", () => {
     var BapkesAukstis = BapkesElementas.height;
     var kvplotis = ekranoPlotis / 10
     var kvaukstis = ekranoAukstis / 10
+    var bod = [kunas, kunas1,kunas2,kunas3]
+    an = 0
     lvl = localStorage.getItem('lvl');
     if(lvl = 'undefined'){
         lvl = 0
@@ -358,8 +364,15 @@ window.addEventListener("load", () => {
                             active = true;
                     
                             if (xtemp2 < xtemp + skaicius) {
-                                x++;
+                                x += 0.5;
                                 xtemp2++;
+                               if(an < 3 ){if(lai < 1){
+                                lai += 0.09    
+                                }else {lai = 0
+                                    an++}
+                                }else {
+                                    an = 0
+                                }
                                 // console.log(x); // Čia jūsų veiksmų logika
                                 setTimeout(function () {
                                     active = false;
@@ -367,6 +380,7 @@ window.addEventListener("load", () => {
                                 }, 10); // Kviečiame funkciją po 10 ms
                             } else {
                                 active = false;
+                                an = 0
                             }
                         }
                     }
@@ -387,8 +401,15 @@ window.addEventListener("load", () => {
                             active = true;
                     
                             if (xtemp2 < xtemp + skaicius) {
-                                x--;
+                                x-= 0.5;
                                 xtemp2++;
+                                if(an < 3 ){if(lai < 1){
+                                    lai += 0.09    
+                                    }else {lai = 0
+                                        an++}
+                                    }else {
+                                        an = 0
+                                    }
                                 // console.log(x); // Čia jūsų veiksmų logika
                                 setTimeout(function () {
                                     active = false;
@@ -431,8 +452,15 @@ window.addEventListener("load", () => {
                             active = true;
                     
                             if (xtemp2 < xtemp + skaicius) {
-                                x++;
+                                x+= 0.5;
                                 xtemp2++;
+                                if(an < 3 ){if(lai < 1){
+                                    lai += 0.09    
+                                    }else {lai = 0
+                                        an++}
+                                    }else {
+                                        an = 0
+                                    }
                                 // console.log(x); // Čia jūsų veiksmų logika
                                 setTimeout(function () {
                                     active = false;
@@ -456,8 +484,15 @@ window.addEventListener("load", () => {
                             active = true;
                     
                             if (xtemp2 < xtemp + skaicius) {
-                                x--;
+                                x-= 0.5;
                                 xtemp2++;
+                                if(an < 3 ){if(lai < 1){
+                                    lai += 0.09    
+                                    }else {lai = 0
+                                        an++}
+                                    }else {
+                                        an = 0
+                                    }
                                 // console.log(x); // Čia jūsų veiksmų logika
                                 setTimeout(function () {
                                     active = false;
@@ -636,7 +671,7 @@ window.addEventListener("load", () => {
         // ctx.drawImage(kelnes, x, y, kunoplotis, kunoaukstis);
         // ctx.drawImage(maike, x, y, kunoplotis, kunoaukstis);
         // ctx.drawImage(plaukai,x + kunoplotis / 6,y - kunoaukstis / 3,kunoplotis,kunoaukstis);
-        ctx.drawImage(veidas,x + kunoplotis / 6,y ,kunoplotis +40,kunoaukstis);
+        ctx.drawImage(bod[an],x + kunoplotis / 6,y ,kunoplotis,kunoaukstis);
 
         if (d1x > ekranoPlotis) {
             d1x = -100;
