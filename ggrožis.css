@@ -80,7 +80,7 @@ body {
 
 }
 #codeplace{
-  
+  border-radius: 5px; 
   position: fixed;
   place-items: center;
   height: 30px;
@@ -97,6 +97,7 @@ left: 20px; /* Nustatykite norimą horizontalią poziciją */
 background-color: rgba(82, 82, 82, 0.7); /* 0.7 - dalinai permatoma spalva */
 padding: 10px;
 border: 3px solid #000;
+border-radius: 5px; 
 }
 #uzd {
   position: absolute;
@@ -105,6 +106,7 @@ left: 85vw; /* Nustatykite norimą horizontalią poziciją */
 background-color: rgba(82, 82, 82, 0.7); /* 0.7 - dalinai permatoma spalva */
 padding: 10px;
 border: 3px solid #000;
+border-radius: 5px; 
 }
 .ac{    
   text-align: center;
